@@ -29,7 +29,7 @@ export default function Home() {
   return (
     <div>
       <style>{`
-        .hero-cards-grid { grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        .hero-cards-grid { grid-template-columns: repeat(4, 1fr); gap: 0; }
         .services-grid { grid-template-columns: repeat(4, 1fr); }
         .concerns-grid { grid-template-columns: repeat(4, 1fr); }
         .partners-grid { grid-template-columns: repeat(4, 1fr); }
@@ -37,7 +37,7 @@ export default function Home() {
         .location-grid { grid-template-columns: 1fr 1fr; }
 
         @media (max-width: 1024px) {
-          .hero-cards-grid { grid-template-columns: repeat(4, 1fr); gap: 12px; }
+          .hero-cards-grid { grid-template-columns: repeat(2, 1fr); gap: 0; }
           .services-grid { grid-template-columns: repeat(2, 1fr); }
           .concerns-grid { grid-template-columns: repeat(2, 1fr); }
           .partners-grid { grid-template-columns: repeat(3, 1fr); }
@@ -46,11 +46,11 @@ export default function Home() {
         }
 
         @media (max-width: 768px) {
-          .hero-cards-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+          .hero-cards-grid { grid-template-columns: repeat(2, 1fr); gap: 0; }
         }
 
         @media (max-width: 640px) {
-          .hero-cards-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+          .hero-cards-grid { grid-template-columns: 1fr; gap: 0; }
           .services-grid { grid-template-columns: 1fr; }
           .concerns-grid { grid-template-columns: 1fr; }
           .partners-grid { grid-template-columns: repeat(2, 1fr); }
@@ -112,40 +112,28 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Services Strip - on hero background */}
-        <div
-          id="business-services"
-          ref={servicesReveal.ref}
-          style={{
-            position: 'relative',
-            zIndex: 2,
-            paddingBottom: '80px',
-            transform: servicesReveal.visible ? 'translateY(0)' : 'translateY(60px)',
-            opacity: servicesReveal.visible ? 1 : 0,
-            transition: 'transform 0.8s ease-out, opacity 0.8s ease-out'
-          }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
-            <div style={{ textAlign: 'center', marginBottom: '72px' }}>
-              <h2 style={{
-                fontSize: 'clamp(22px, 3vw, 32px)',
-                fontWeight: '700',
-                color: '#ffffff',
-                marginBottom: '24px',
-                letterSpacing: '2px'
-              }}>
-                Services
-              </h2>
-              <div style={{ width: '50px', height: '2px', backgroundColor: '#d4af37', margin: '0 auto' }} />
-            </div>
-            <div className="hero-cards-grid" style={{ display: 'grid' }}>
-              <HeroServiceCard icon={<FinanceIcon />} title="기업 재무 컨설팅" />
-              <HeroServiceCard icon={<RiskIcon />} title="경영 리스크 관리" />
-              <HeroServiceCard icon={<TaxIcon />} title="절세 및 비용 절감" />
-              <HeroServiceCard icon={<ConsultingIcon />} title="소상공인 경영 컨설팅" />
-            </div>
-          </div>
-        </div>
       </section>
+
+      {/* ═══ Services Banner Boxes (히어로 하단 걸침) ═══ */}
+      <div
+        id="business-services"
+        ref={servicesReveal.ref}
+        style={{
+          position: 'relative',
+          zIndex: 10,
+          marginTop: '-60px',
+          transform: servicesReveal.visible ? 'translateY(0)' : 'translateY(40px)',
+          opacity: servicesReveal.visible ? 1 : 0,
+          transition: 'transform 0.8s ease-out, opacity 0.8s ease-out'
+        }}
+      >
+        <div className="hero-cards-grid" style={{ display: 'grid' }}>
+          <HeroServiceCard icon={<FinanceIcon />} title="기업 재무 컨설팅" desc="재무 분석, 자금 조달, 투자 전략 수립을 통한 기업 성장 지원" bgColor="#d4af37" />
+          <HeroServiceCard icon={<RiskIcon />} title="경영 리스크 관리" desc="경영 환경 분석과 리스크 대응 체계 구축으로 안정적 운영 지원" bgColor="#1a2a4a" />
+          <HeroServiceCard icon={<TaxIcon />} title="절세 및 비용 절감" desc="세무 전략 수립과 비용 구조 개선을 통한 수익성 극대화" bgColor="#2a3a5a" />
+          <HeroServiceCard icon={<ConsultingIcon />} title="소상공인 경영 컨설팅" desc="창업, 마케팅, 플랫폼 구축 등 소상공인 맞춤 토탈 솔루션" bgColor="#0f3278" />
+        </div>
+      </div>
 
       {/* ═══ 핵심서비스 (이런 고민) ═══ */}
       <section id="services" style={{
@@ -403,34 +391,53 @@ function ConsultingIcon({ color = '#fff', size = 32 }: { color?: string; size?: 
 
 /* ─── Components ─── */
 
-function HeroServiceCard({ icon, title }: { icon: React.ReactNode; title: string }) {
+function HeroServiceCard({ icon, title, desc, bgColor }: { icon: React.ReactNode; title: string; desc: string; bgColor: string }) {
   return (
     <div style={{
-      backgroundColor: 'rgba(255,255,255,0.06)',
-      border: '1px solid rgba(255,255,255,0.12)',
-      padding: 'clamp(24px, 3vw, 32px) clamp(14px, 1.5vw, 18px)',
-      borderRadius: '10px',
-      backdropFilter: 'blur(8px)',
+      backgroundColor: bgColor,
+      padding: 'clamp(28px, 3vw, 40px) clamp(20px, 2vw, 30px)',
       transition: 'all 0.3s',
       cursor: 'pointer',
-      textAlign: 'center',
       display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center'
+      alignItems: 'flex-start',
+      gap: '18px'
     }}
     onMouseOver={(e) => {
-      e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.12)';
-      e.currentTarget.style.borderColor = 'rgba(212,175,55,0.4)';
-      e.currentTarget.style.transform = 'translateY(-3px)';
+      e.currentTarget.style.filter = 'brightness(1.15)';
+      e.currentTarget.style.transform = 'translateY(-4px)';
+      e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.3)';
     }}
     onMouseOut={(e) => {
-      e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.06)';
-      e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)';
+      e.currentTarget.style.filter = 'brightness(1)';
       e.currentTarget.style.transform = 'translateY(0)';
+      e.currentTarget.style.boxShadow = 'none';
     }}>
-      <div style={{ marginBottom: '14px', opacity: 0.85 }}>{icon}</div>
-      <h3 style={{ fontSize: 'clamp(12px, 1.2vw, 14px)', fontWeight: '600', color: '#fff', margin: 0, lineHeight: '1.4' }}>{title}</h3>
+      <div style={{
+        width: '50px', height: '50px', borderRadius: '50%',
+        border: '2px solid rgba(255,255,255,0.4)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        flexShrink: 0
+      }}>
+        {icon}
+      </div>
+      <div>
+        <h3 style={{
+          fontSize: 'clamp(13px, 1.3vw, 15px)',
+          fontWeight: '800',
+          color: '#fff',
+          margin: '0 0 6px',
+          lineHeight: '1.4',
+          letterSpacing: '0.5px',
+          textTransform: 'uppercase'
+        }}>{title}</h3>
+        <p style={{
+          fontSize: 'clamp(11px, 1vw, 13px)',
+          color: 'rgba(255,255,255,0.7)',
+          margin: 0,
+          lineHeight: '1.6',
+          fontStyle: 'italic'
+        }}>{desc}</p>
+      </div>
     </div>
   );
 }
