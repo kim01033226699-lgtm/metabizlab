@@ -24,6 +24,7 @@ function useScrollReveal() {
 
 export default function Home() {
   const [showRecruit, setShowRecruit] = useState(false);
+  const [showConsult, setShowConsult] = useState(false);
   const servicesReveal = useScrollReveal();
 
   return (
@@ -35,6 +36,10 @@ export default function Home() {
         .partners-grid { grid-template-columns: repeat(4, 1fr); }
         .careers-grid { grid-template-columns: 1fr 1fr; gap: 60px; }
         .location-grid { grid-template-columns: 1fr 1fr; }
+        .loc-main { order: 1; }
+        .loc-branch { order: 2; }
+        .loc-phone { order: 3; }
+        .loc-email { order: 4; }
 
         @media (max-width: 1024px) {
           .hero-cards-grid { grid-template-columns: repeat(2, 1fr); gap: 0; }
@@ -56,6 +61,10 @@ export default function Home() {
           .partners-grid { grid-template-columns: repeat(2, 1fr); }
           .careers-grid { grid-template-columns: 1fr; gap: 32px; }
           .location-grid { grid-template-columns: 1fr; }
+          .loc-main { order: 1; }
+          .loc-branch { order: 2; }
+          .loc-phone { order: 3; }
+          .loc-email { order: 4; }
         }
       `}</style>
 
@@ -155,10 +164,10 @@ export default function Home() {
             gap: '16px',
             marginTop: '40px'
           }}>
-            <ConcernCard icon={<ConcernIcon1 />} text="매출은 꾸준한데 왜 남는 돈이 적은지 고민해보신 적 있으신가요?" />
-            <ConcernCard icon={<ConcernIcon2 />} text="세금이나 고정비를 줄일 수 있는 방법이 궁금하신가요?" />
-            <ConcernCard icon={<ConcernIcon3 />} text="사업 운영 중 발생할 수 있는 위험에 대비가 되어 있으신가요?" />
-            <ConcernCard icon={<ConcernIcon4 />} text="창업, 마케팅, 플랫폼을 어떻게 시작해야 할지 궁금하신가요?" />
+            <ConcernCard icon={<ConcernIcon1 />} text="매출은 꾸준한데 왜 남는 돈이 적은지 고민해보신 적 있으신가요?" onClick={() => setShowConsult(true)} />
+            <ConcernCard icon={<ConcernIcon2 />} text="세금이나 고정비를 줄일 수 있는 방법이 궁금하신가요?" onClick={() => setShowConsult(true)} />
+            <ConcernCard icon={<ConcernIcon3 />} text="사업 운영 중 발생할 수 있는 위험에 대비가 되어 있으신가요?" onClick={() => setShowConsult(true)} />
+            <ConcernCard icon={<ConcernIcon4 />} text="창업, 마케팅, 플랫폼을 어떻게 시작해야 할지 궁금하신가요?" onClick={() => setShowConsult(true)} />
           </div>
         </div>
       </section>
@@ -189,20 +198,7 @@ export default function Home() {
           }}>
             메타비즈랩은 다양한 분야의 파트너와 함께합니다.
           </p>
-          <div className="partners-grid" style={{ display: 'grid', gap: '20px' }}>
-            <PartnerCard name="드림플러스" role="경영지도 컨설팅" person="김내영 대표" />
-            <PartnerCard name="캠핑삼촌" role="유튜브" person="" />
-            <PartnerCard name="법무법인 우리" role="법률 자문" person="정상수 변호사" />
-            <PartnerCard name="세무법인 가감" role="세무 자문" person="유원상 세무사" />
-            <PartnerCard name="영필름" role="영상 제작" person="이영재 감독" />
-            <PartnerCard name="지산튜브" role="부동산 유튜브" person="" />
-            <PartnerCard name="인 다이렉트 카보험" role="보험" person="신인철 대표" />
-            <PartnerCard name="하람 손해사정" role="손해사정" person="정원호 대표" />
-            <PartnerCard name="(주)국민M&A" role="M&A" person="곽대영 대표" />
-            <PartnerCard name="건강한 다이어" role="건강" person="박미선 대표" />
-            <PartnerCard name="제로디자인" role="디자인" person="이준상 대표" />
-            <PartnerCard name="에이치앤이드" role="광고기획사" person="" />
-          </div>
+          <PartnersSlider />
         </div>
       </section>
 
@@ -307,27 +303,37 @@ export default function Home() {
               color: '#0f3278',
               marginBottom: '16px'
             }}>
-              Location
+              오시는 길
             </h2>
             <div style={{ width: '60px', height: '3px', backgroundColor: '#d4af37', margin: '0 auto' }} />
           </div>
           <div className="location-grid" style={{ display: 'grid', gap: '40px' }}>
-            <LocationCard
-              title="메타비즈랩 (본사)"
-              subtitle="Main Office"
-              address="서울특별시 마포구 마포대로 144 마포디오"
-              phone="1600-3797"
-              hours="*사업 가능 시간: 월-금 9:00~18:00(우림, 공휴일 휴무)"
-              mapHtml={`<div id="daumRoughmapContainer1775275004997" class="root_daum_roughmap root_daum_roughmap_landing"></div><script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script><script charset="UTF-8">new daum.roughmap.Lander({"timestamp":"1775275004997","key":"29oemj76o9xw","mapWidth":"640","mapHeight":"360"}).render();</script>`}
-            />
-            <LocationCard
-              title="메타비즈랩 (지사)"
-              subtitle="Branch Office"
-              address="경기도 고양시 덕양구 황동로 218, 1층 A0145호(Gate 5)"
-              email="meta@meta-bizab.co.kr"
-              hours="*24시간 접수 가능"
-              mapHtml={`<div id="daumRoughmapContainer1775275072404" class="root_daum_roughmap root_daum_roughmap_landing"></div><script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script><script charset="UTF-8">new daum.roughmap.Lander({"timestamp":"1775275072404","key":"29oeo5dk324o","mapWidth":"640","mapHeight":"360"}).render();</script>`}
-            />
+            {/* 본사 지도 */}
+            <div className="loc-main" style={{ order: 1 }}>
+              <LocationCard
+                title="메타비즈랩 (본사)"
+                subtitle="Main Office"
+                address="서울특별시 마포구 마포대로 144 마포T타운(04212)"
+                mapHtml={`<div id="daumRoughmapContainer1775275004997" class="root_daum_roughmap root_daum_roughmap_landing"></div><script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script><script charset="UTF-8">new daum.roughmap.Lander({"timestamp":"1775275004997","key":"29oemj76o9xw","mapWidth":"640","mapHeight":"360"}).render();</script>`}
+              />
+            </div>
+            {/* 지사 지도 */}
+            <div className="loc-branch" style={{ order: 2 }}>
+              <LocationCard
+                title="메타비즈랩 (지사)"
+                subtitle="Branch Office"
+                address="경기도 고양시 덕양구 황동로 218, 1층 A0145호(Gate 5)"
+                mapHtml={`<div id="daumRoughmapContainer1775275072404" class="root_daum_roughmap root_daum_roughmap_landing"></div><script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script><script charset="UTF-8">new daum.roughmap.Lander({"timestamp":"1775275072404","key":"29oeo5dk324o","mapWidth":"640","mapHeight":"360"}).render();</script>`}
+              />
+            </div>
+            {/* 대표번호 박스 */}
+            <div className="loc-phone" style={{ order: 3 }}>
+              <InfoBox label="대표번호" value="1600-3797" sub="평일 09:00-18:00" />
+            </div>
+            {/* 이메일 박스 */}
+            <div className="loc-email" style={{ order: 4 }}>
+              <InfoBox label="이메일 문의" value="meta@meta-bizlab.co.kr" sub="24시간 접수 가능" />
+            </div>
           </div>
         </div>
       </section>
@@ -336,6 +342,9 @@ export default function Home() {
 
       {/* 채용문의 팝업 */}
       {showRecruit && <RecruitPopup onClose={() => setShowRecruit(false)} />}
+
+      {/* 상담신청 팝업 */}
+      {showConsult && <ConsultPopup onClose={() => setShowConsult(false)} />}
     </div>
   );
 }
@@ -442,9 +451,9 @@ function HeroServiceCard({ icon, title, desc, bgColor }: { icon: React.ReactNode
   );
 }
 
-function ConcernCard({ icon, text }: { icon: React.ReactNode; text: string }) {
+function ConcernCard({ icon, text, onClick }: { icon: React.ReactNode; text: string; onClick?: () => void }) {
   return (
-    <div style={{
+    <div onClick={onClick} style={{
       border: '1.5px solid #0f3278',
       color: '#0f3278',
       padding: 'clamp(28px, 3vw, 36px) clamp(16px, 2vw, 24px)',
@@ -566,6 +575,267 @@ function ServiceDetailCard({ icon, title, items }: { icon: React.ReactNode; titl
 }
 
 /* ─── Recruit Popup ─── */
+
+/* ─── 상담신청 팝업 ─── */
+
+function ConsultPopup({ onClose }: { onClose: () => void }) {
+  const [consultType, setConsultType] = useState('창업');
+  const inputStyle: React.CSSProperties = {
+    width: '100%', padding: '12px 14px', border: '1px solid #ddd',
+    borderRadius: '4px', fontSize: '14px', outline: 'none',
+    transition: 'border-color 0.3s', boxSizing: 'border-box' as const, fontFamily: 'inherit'
+  };
+  const labelStyle: React.CSSProperties = {
+    fontSize: '14px', fontWeight: '700', color: '#333', minWidth: '80px', flexShrink: 0
+  };
+  const rowStyle: React.CSSProperties = {
+    display: 'flex', alignItems: 'center', gap: '16px',
+    padding: '16px 0', borderBottom: '1px solid #eee'
+  };
+
+  return (
+    <div
+      style={{
+        position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+        backgroundColor: 'rgba(0,0,0,0.6)', zIndex: 9999,
+        display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px'
+      }}
+      onClick={onClose}
+    >
+      <div
+        style={{
+          backgroundColor: '#ffffff', borderRadius: '12px', maxWidth: '560px',
+          width: '100%', maxHeight: '90vh', overflow: 'hidden',
+          display: 'flex', flexDirection: 'column'
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div style={{
+          padding: '20px 28px', borderBottom: '1px solid #eee',
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0
+        }}>
+          <h2 style={{ fontSize: '20px', fontWeight: '700', color: '#0f3278', margin: 0 }}>상담신청</h2>
+          <button onClick={onClose} style={{
+            background: 'none', border: 'none', fontSize: '28px',
+            cursor: 'pointer', color: '#ccc', lineHeight: 1, padding: '4px'
+          }}>&times;</button>
+        </div>
+
+        {/* Form */}
+        <div style={{ overflowY: 'auto', flex: 1 }}>
+          <form
+            style={{ padding: '0 28px 28px' }}
+            onSubmit={(e) => {
+              e.preventDefault();
+              alert('상담신청이 접수되었습니다. 감사합니다.');
+              onClose();
+            }}
+          >
+            {/* 이름 */}
+            <div style={rowStyle}>
+              <label style={labelStyle}>이름</label>
+              <input type="text" required placeholder="이름을 입력해주세요" style={inputStyle}
+                onFocus={(e) => e.target.style.borderColor = '#0f3278'}
+                onBlur={(e) => e.target.style.borderColor = '#ddd'} />
+            </div>
+
+            {/* 연락처 */}
+            <div style={rowStyle}>
+              <label style={labelStyle}>연락처</label>
+              <div style={{ display: 'flex', gap: '8px', flex: 1, alignItems: 'center' }}>
+                <input type="text" required placeholder="010" maxLength={3}
+                  style={{ ...inputStyle, textAlign: 'center' as const }}
+                  onFocus={(e) => e.target.style.borderColor = '#0f3278'}
+                  onBlur={(e) => e.target.style.borderColor = '#ddd'} />
+                <span style={{ color: '#ccc' }}>-</span>
+                <input type="text" required placeholder="0000" maxLength={4}
+                  style={{ ...inputStyle, textAlign: 'center' as const }}
+                  onFocus={(e) => e.target.style.borderColor = '#0f3278'}
+                  onBlur={(e) => e.target.style.borderColor = '#ddd'} />
+                <span style={{ color: '#ccc' }}>-</span>
+                <input type="text" required placeholder="0000" maxLength={4}
+                  style={{ ...inputStyle, textAlign: 'center' as const }}
+                  onFocus={(e) => e.target.style.borderColor = '#0f3278'}
+                  onBlur={(e) => e.target.style.borderColor = '#ddd'} />
+              </div>
+            </div>
+
+            {/* 문의내용 선택 */}
+            <div style={rowStyle}>
+              <label style={labelStyle}>문의내용</label>
+              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                {['창업', '절세', '법인컨설팅', '기타'].map((type) => (
+                  <label key={type} style={{
+                    display: 'flex', alignItems: 'center', gap: '6px',
+                    fontSize: '14px', color: '#333', cursor: 'pointer'
+                  }}>
+                    <input
+                      type="radio" name="consultType" value={type}
+                      checked={consultType === type}
+                      onChange={(e) => setConsultType(e.target.value)}
+                      style={{ accentColor: '#0f3278' }}
+                    />
+                    {type}
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* 문의내용 상세 */}
+            <div style={{ ...rowStyle, alignItems: 'flex-start', borderBottom: 'none' }}>
+              <label style={{ ...labelStyle, paddingTop: '4px' }}>상세내용</label>
+              <textarea
+                placeholder="문의 내용을 입력해 주세요"
+                rows={4}
+                style={{ ...inputStyle, resize: 'vertical' }}
+                onFocus={(e) => e.target.style.borderColor = '#0f3278'}
+                onBlur={(e) => e.target.style.borderColor = '#ddd'}
+              />
+            </div>
+
+            {/* 보내기 */}
+            <button type="submit" style={{
+              width: '100%', backgroundColor: '#0f3278', color: '#ffffff',
+              padding: '14px', borderRadius: '8px', fontSize: '15px', fontWeight: '700',
+              border: 'none', cursor: 'pointer', transition: 'all 0.3s', marginTop: '16px'
+            }}
+            onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#0a2560'}
+            onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#0f3278'}>
+              보내기
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── 협력사 슬라이더 ─── */
+
+function PartnersSlider() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const partners = [
+    { name: '드림플러스', role: '경영지도 컨설팅', person: '김내영 대표', link: '' },
+    { name: '캠핑삼춘[CampingUncle]', role: '유튜브', person: '', link: 'https://www.youtube.com/@CampingUncle' },
+    { name: '법무법인 우리', role: '법률 자문', person: '정상수 변호사', link: '' },
+    { name: '세무법인 가감', role: '세무 자문', person: '유원상 세무사', link: '' },
+    { name: '영필름', role: '영상 제작', person: '이영재 감독', link: '' },
+    { name: '지산튜브', role: '부동산 유튜브', person: '', link: 'https://www.youtube.com/@jisantube' },
+    { name: '인 다이렉트 카보험', role: '보험', person: '신인철 대표', link: '' },
+    { name: '하람 손해사정', role: '손해사정', person: '정원호 대표', link: '' },
+    { name: '(주)국민M&A', role: 'M&A', person: '곽대영 대표', link: '' },
+    { name: '건강한 다이어', role: '건강', person: '박미선 대표', link: '' },
+    { name: '제로디자인', role: '디자인', person: '이준상 대표', link: '' },
+    { name: '에이치앤이드', role: '광고기획사', person: '', link: '' },
+  ];
+
+  const checkScroll = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 0);
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 1);
+  };
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    checkScroll();
+    el.addEventListener('scroll', checkScroll);
+    return () => el.removeEventListener('scroll', checkScroll);
+  }, []);
+
+  // 자동 슬라이드 (3초마다)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const el = scrollRef.current;
+      if (!el) return;
+      if (el.scrollLeft >= el.scrollWidth - el.clientWidth - 1) {
+        el.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        el.scrollBy({ left: 260, behavior: 'smooth' });
+      }
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const scroll = (dir: 'left' | 'right') => {
+    const el = scrollRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir === 'left' ? -300 : 300, behavior: 'smooth' });
+  };
+
+  return (
+    <div style={{ position: 'relative' }}>
+      {/* 왼쪽 화살표 */}
+      {canScrollLeft && (
+        <button
+          onClick={() => scroll('left')}
+          style={{
+            position: 'absolute', left: '-20px', top: '50%', transform: 'translateY(-50%)',
+            width: '44px', height: '44px', borderRadius: '50%',
+            backgroundColor: '#ffffff', border: '1px solid #e0e6f0',
+            boxShadow: '0 2px 12px rgba(0,0,0,0.1)',
+            cursor: 'pointer', zIndex: 2,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: '18px', color: '#0f3278', fontWeight: '700'
+          }}
+        >
+          &#8249;
+        </button>
+      )}
+
+      {/* 오른쪽 화살표 */}
+      {canScrollRight && (
+        <button
+          onClick={() => scroll('right')}
+          style={{
+            position: 'absolute', right: '-20px', top: '50%', transform: 'translateY(-50%)',
+            width: '44px', height: '44px', borderRadius: '50%',
+            backgroundColor: '#ffffff', border: '1px solid #e0e6f0',
+            boxShadow: '0 2px 12px rgba(0,0,0,0.1)',
+            cursor: 'pointer', zIndex: 2,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: '18px', color: '#0f3278', fontWeight: '700'
+          }}
+        >
+          &#8250;
+        </button>
+      )}
+
+      {/* 스크롤 컨테이너 */}
+      <div
+        ref={scrollRef}
+        style={{
+          display: 'flex',
+          gap: '20px',
+          overflowX: 'auto',
+          scrollSnapType: 'x mandatory',
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+          padding: '10px 0',
+          WebkitOverflowScrolling: 'touch'
+        }}
+      >
+{/* scrollbar hidden via inline scrollbarWidth + msOverflowStyle */}
+        {partners.map((p, i) => (
+          <div key={i} style={{
+            scrollSnapAlign: 'start',
+            flexShrink: 0,
+            width: '240px'
+          }}
+          onClick={() => p.link && window.open(p.link, '_blank')}
+          >
+            <PartnerCard name={p.name} role={p.role} person={p.person} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function RecruitPopup({ onClose }: { onClose: () => void }) {
   const [agreed, setAgreed] = useState(false);
@@ -905,7 +1175,36 @@ function PartnerCard({ name, role, person }: { name: string; role: string; perso
   );
 }
 
-function LocationCard({ title, subtitle, address, phone, email, hours, mapHtml }: any) {
+function InfoBox({ label, value, sub }: { label: string; value: string; sub?: string }) {
+  return (
+    <div style={{
+      backgroundColor: '#f4f7fc',
+      border: '1px solid #e8edf5',
+      borderRadius: '12px',
+      padding: '24px 20px',
+      textAlign: 'center',
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }}>
+      <p style={{ fontSize: '11px', color: '#999', fontWeight: '600', letterSpacing: '0.5px', marginBottom: '8px', textTransform: 'uppercase' }}>
+        {label}
+      </p>
+      <p style={{ fontSize: 'clamp(16px, 1.8vw, 20px)', color: '#0f3278', fontWeight: '800', marginBottom: '6px' }}>
+        {value}
+      </p>
+      {sub && (
+        <p style={{ fontSize: '12px', color: '#999', margin: 0 }}>{sub}</p>
+      )}
+    </div>
+  );
+}
+
+function LocationCard({ title, subtitle, address, mapHtml }: {
+  title: string; subtitle?: string; address: string; mapHtml?: string;
+}) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
@@ -936,44 +1235,40 @@ function LocationCard({ title, subtitle, address, phone, email, hours, mapHtml }
   }, [mapHtml]);
 
   return (
-    <div style={{
-      backgroundColor: '#ffffff',
-      border: '1px solid #e8edf5',
-      borderRadius: '16px',
-      overflow: 'hidden',
-      transition: 'all 0.3s'
-    }}
-    onMouseOver={(e) => {
-      e.currentTarget.style.boxShadow = '0 12px 40px rgba(15,50,120,0.1)';
-      e.currentTarget.style.transform = 'translateY(-4px)';
-    }}
-    onMouseOut={(e) => {
-      e.currentTarget.style.boxShadow = 'none';
-      e.currentTarget.style.transform = 'translateY(0)';
-    }}>
-      {/* 카카오맵 퍼가기 - iframe sandbox */}
-      <iframe
-        ref={iframeRef}
-        style={{
-          width: '100%',
-          height: '280px',
-          border: 'none',
-          display: 'block'
-        }}
-        title={`${title} 지도`}
-      />
-      <div style={{ padding: 'clamp(18px, 2.5vw, 24px)' }}>
-        {subtitle && (
-          <span style={{ fontSize: '11px', color: '#d4af37', fontWeight: '600', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
-            {subtitle}
-          </span>
-        )}
-        <h3 style={{ fontSize: 'clamp(15px, 1.5vw, 17px)', fontWeight: '700', color: '#0f3278', marginBottom: '14px' }}>{title}</h3>
-        <p style={{ fontSize: '13px', color: '#777', margin: '0 0 10px', lineHeight: '1.6' }}>{address}</p>
-        {phone && <p style={{ fontSize: '13px', color: '#0f3278', fontWeight: '600', marginBottom: '6px' }}>{phone}</p>}
-        {email && <p style={{ fontSize: '13px', color: '#0f3278', fontWeight: '600', marginBottom: '6px' }}>{email}</p>}
-        {hours && <p style={{ fontSize: '11px', color: '#aaa', marginTop: '10px', fontStyle: 'italic' }}>{hours}</p>}
+    <div>
+      {/* 지도 + 제목/주소 카드 */}
+      <div style={{
+        backgroundColor: '#ffffff',
+        border: '1px solid #e8edf5',
+        borderRadius: '16px',
+        overflow: 'hidden',
+        transition: 'all 0.3s',
+        marginBottom: '16px'
+      }}
+      onMouseOver={(e) => {
+        e.currentTarget.style.boxShadow = '0 12px 40px rgba(15,50,120,0.1)';
+        e.currentTarget.style.transform = 'translateY(-4px)';
+      }}
+      onMouseOut={(e) => {
+        e.currentTarget.style.boxShadow = 'none';
+        e.currentTarget.style.transform = 'translateY(0)';
+      }}>
+        <iframe
+          ref={iframeRef}
+          style={{ width: '100%', height: '280px', border: 'none', display: 'block' }}
+          title={`${title} 지도`}
+        />
+        <div style={{ padding: 'clamp(18px, 2.5vw, 24px)' }}>
+          {subtitle && (
+            <span style={{ fontSize: '11px', color: '#d4af37', fontWeight: '600', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
+              {subtitle}
+            </span>
+          )}
+          <h3 style={{ fontSize: 'clamp(15px, 1.5vw, 17px)', fontWeight: '700', color: '#0f3278', marginBottom: '10px' }}>{title}</h3>
+          <p style={{ fontSize: '13px', color: '#777', margin: 0, lineHeight: '1.6' }}>{address}</p>
+        </div>
       </div>
+
     </div>
   );
 }

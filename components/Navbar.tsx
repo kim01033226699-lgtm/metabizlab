@@ -63,17 +63,15 @@ export default function Navbar() {
           }}>
             {/* Logo */}
             <a href="#about" style={{
-              fontSize: '18px',
-              fontWeight: '700',
-              color: '#ffffff',
               display: 'flex',
               alignItems: 'center',
-              gap: '8px',
-              letterSpacing: '0.5px',
               textDecoration: 'none'
             }}>
-              <span style={{ fontSize: '16px', color: '#d4af37' }}>◆</span>
-              <span>META BIZLAB</span>
+              <img
+                src="/metabizlab/images/metabizlab-logo.png"
+                alt="META BIZLAB"
+                style={{ height: '43px', width: 'auto' }}
+              />
             </a>
 
             {/* Desktop Menu */}

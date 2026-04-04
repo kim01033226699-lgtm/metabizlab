@@ -35,8 +35,12 @@ export default function Home2() {
       <style>{`
         .h2-services-grid { grid-template-columns: repeat(4, 1fr); gap: 24px; }
         .h2-concerns-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
-        .h2-partners-grid { grid-template-columns: repeat(4, 1fr); gap: 16px; }
-        .h2-location-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+        .h2-partners-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .h2-location-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+        .loc-main { order: 1; }
+        .loc-branch { order: 2; }
+        .loc-phone { order: 3; }
+        .loc-email { order: 4; }
         .h2-hero-layout { display: flex; align-items: center; min-height: 100vh; }
         .h2-hero-left { flex: 1; padding: 120px 60px 80px 60px; }
         .h2-hero-right { flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 0; min-height: 100vh; position: relative; }
@@ -44,7 +48,7 @@ export default function Home2() {
         @media (max-width: 1024px) {
           .h2-services-grid { grid-template-columns: repeat(2, 1fr); }
           .h2-concerns-grid { grid-template-columns: repeat(2, 1fr); }
-          .h2-partners-grid { grid-template-columns: repeat(3, 1fr); }
+          .h2-partners-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
           .h2-location-grid { grid-template-columns: 1fr 1fr; }
           .h2-hero-layout { flex-direction: column; }
           .h2-hero-left { padding: 120px 30px 40px; text-align: center; }
@@ -56,6 +60,10 @@ export default function Home2() {
           .h2-concerns-grid { grid-template-columns: 1fr; }
           .h2-partners-grid { grid-template-columns: repeat(2, 1fr); }
           .h2-location-grid { grid-template-columns: 1fr; }
+          .loc-main { order: 1; }
+          .loc-branch { order: 2; }
+          .loc-phone { order: 3; }
+          .loc-email { order: 4; }
           .h2-hero-right { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 1fr); min-height: 40vh; }
         }
       `}</style>
@@ -129,35 +137,20 @@ export default function Home2() {
         </div>
       </section>
 
-      {/* ═══ 슬라이드2: 회사소개 + 4대 서비스 ═══ */}
+      {/* ═══ 슬라이드2: 회사소개 제목 (흰 배경) ═══ */}
       <section
         id="business-services"
         ref={servicesReveal.ref}
         style={{
-          position: 'relative',
-          padding: 'clamp(80px, 10vw, 140px) 20px',
-          overflow: 'hidden',
+          padding: 'clamp(60px, 8vw, 100px) 20px clamp(40px, 5vw, 60px)',
+          backgroundColor: '#ffffff',
           transform: servicesReveal.visible ? 'translateY(0)' : 'translateY(60px)',
           opacity: servicesReveal.visible ? 1 : 0,
           transition: 'transform 0.8s ease-out, opacity 0.8s ease-out'
         }}
       >
-        {/* 배경 이미지 (비즈니스 사람들) */}
-        <div style={{
-          position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
-          backgroundImage: 'url(/metabizlab/images/career.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          zIndex: 0
-        }}>
-          <div style={{
-            position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
-            background: 'rgba(255,255,255,0.88)'
-          }} />
-        </div>
-
-        <div style={{ maxWidth: '1100px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
-          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center' }}>
             <h2 style={{
               fontSize: 'clamp(20px, 3vw, 30px)',
               fontWeight: '700',
@@ -169,7 +162,30 @@ export default function Home2() {
               비즈니스 컨설팅 <span style={{ color: '#0f3278', fontWeight: '800' }}>파트너</span>입니다.
             </h2>
           </div>
+        </div>
+      </section>
 
+      {/* ═══ 슬라이드2: 4대 서비스 카드 (배경 이미지) ═══ */}
+      <section style={{
+        position: 'relative',
+        padding: 'clamp(60px, 8vw, 100px) 20px',
+        overflow: 'hidden'
+      }}>
+        {/* 배경 이미지 (비즈니스 악수) */}
+        <div style={{
+          position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+          backgroundImage: 'url(/metabizlab/images/business-handshake.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          zIndex: 0
+        }}>
+          <div style={{
+            position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+            background: 'rgba(80,90,110,0.6)'
+          }} />
+        </div>
+
+        <div style={{ maxWidth: '1100px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
           <div className="h2-services-grid" style={{ display: 'grid' }}>
             <ServiceCard icon={<FinanceIcon />} title="기업 재무 컨설팅" />
             <ServiceCard icon={<RiskIcon />} title="경영 리스크 관리" />
@@ -180,93 +196,138 @@ export default function Home2() {
       </section>
 
       {/* ═══ 슬라이드3: 이런 고민 ═══ */}
+      {/* 제목: 흰 배경 */}
       <section
         id="services"
         ref={concernsReveal.ref}
         style={{
-          padding: 'clamp(100px, 10vw, 160px) 20px',
-          backgroundColor: '#f8f9fc',
+          padding: 'clamp(60px, 8vw, 100px) 20px clamp(40px, 5vw, 60px)',
+          backgroundColor: '#ffffff',
           transform: concernsReveal.visible ? 'translateY(0)' : 'translateY(60px)',
           opacity: concernsReveal.visible ? 1 : 0,
           transition: 'transform 0.8s ease-out, opacity 0.8s ease-out'
         }}
       >
+        <div style={{ maxWidth: '1000px', margin: '0 auto', textAlign: 'center' }}>
+          <h2 style={{
+            fontSize: 'clamp(22px, 3vw, 32px)',
+            fontWeight: '700',
+            color: '#1a1a2e',
+            lineHeight: '1.5'
+          }}>
+            이런 <span style={{ color: '#0f3278' }}>고민</span>, 한 번쯤 해보신 적 <span style={{ color: '#0f3278' }}>있으신가요</span>?
+          </h2>
+        </div>
+      </section>
+
+      {/* 카드: 파란 배경 */}
+      <section style={{
+        padding: 'clamp(50px, 6vw, 80px) 20px',
+        backgroundColor: '#4a6cf7'
+      }}>
         <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '50px' }}>
-            <h2 style={{
-              fontSize: 'clamp(22px, 3vw, 32px)',
-              fontWeight: '700',
-              color: '#1a1a2e',
-              lineHeight: '1.5'
-            }}>
-              이런 <span style={{ color: '#0f3278' }}>고민</span>, 한 번쯤 해보신 적 있으신가요?
-            </h2>
-          </div>
-          <div className="h2-concerns-grid" style={{ display: 'grid' }}>
-            <ConcernCard
-              icon={<ConcernIcon1 />}
-              title="매출은 꾸준한데 왜 남는 돈이 적은지"
-              text="고민해보신 적 있으신가요?"
-              color="#4a7aff"
-            />
-            <ConcernCard
-              icon={<ConcernIcon2 />}
-              title="세금이나 고정비를 줄일 수 있는"
-              text="방법이 궁금하신가요?"
-              color="#4a7aff"
-            />
-            <ConcernCard
-              icon={<ConcernIcon3 />}
-              title="사업 운영 중 발생할 수 있는 위험에"
-              text="대비가 되어 있으신가요?"
-              color="#4a7aff"
-            />
-            <ConcernCard
-              icon={<ConcernIcon4 />}
-              title="창업, 마케팅, 플랫폼을 어떻게"
-              text="시작해야 할지 궁금하신가요?"
-              color="#4a7aff"
-            />
+          <div className="h2-concerns-grid" style={{ display: 'grid', gap: '20px' }}>
+            <ConcernCardBlue text="매출은 꾸준한데 왜 남는 돈이 적은지&#10;고민해보신 적 있으신가요?" />
+            <ConcernCardBlue text="세금이나 고정비를 줄일 수 있는&#10;방법이 궁금하신가요?" />
+            <ConcernCardBlue text="사업 운영 중 발생할 수 있는 위험에&#10;대비가 되어 있으신가요?" />
+            <ConcernCardBlue text="창업, 마케팅, 플랫폼을 어떻게&#10;시작해야 할지 궁금하신가요?" />
           </div>
         </div>
       </section>
 
-      {/* ═══ 슬라이드4: 협력사 ═══ */}
+      {/* ═══ 슬라이드4: 협력사 제목 (흰 배경) ═══ */}
       <section
         id="partners"
         ref={partnersReveal.ref}
         style={{
-          padding: 'clamp(100px, 10vw, 160px) 20px',
+          padding: 'clamp(60px, 8vw, 100px) 20px clamp(40px, 5vw, 60px)',
           backgroundColor: '#ffffff',
           transform: partnersReveal.visible ? 'translateY(0)' : 'translateY(60px)',
           opacity: partnersReveal.visible ? 1 : 0,
           transition: 'transform 0.8s ease-out, opacity 0.8s ease-out'
         }}
       >
+        <div style={{ maxWidth: '1100px', margin: '0 auto', textAlign: 'center' }}>
+          <h2 style={{
+            fontSize: 'clamp(22px, 3vw, 32px)',
+            fontWeight: '700',
+            color: '#1a1a2e',
+            lineHeight: '1.5'
+          }}>
+            <span style={{ color: '#0f3278', fontWeight: '800' }}>메타비즈랩</span>은 다양한 분야의 <span style={{ color: '#0f3278', fontWeight: '800' }}>파트너</span>와 함께합니다.
+          </h2>
+        </div>
+      </section>
+
+      {/* ═══ 슬라이드4: 협력사 카드 (파란 배경) ═══ */}
+      <section style={{
+        padding: 'clamp(50px, 6vw, 80px) 20px',
+        backgroundColor: '#4a6cf7'
+      }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '50px' }}>
-            <h2 style={{
-              fontSize: 'clamp(22px, 3vw, 32px)',
-              fontWeight: '700',
-              color: '#1a1a2e',
-              lineHeight: '1.5'
-            }}>
-              <span style={{ color: '#0f3278', fontWeight: '800' }}>메타비즈랩</span>은 다양한 분야의 <span style={{ color: '#0f3278', fontWeight: '800' }}>파트너</span>와 함께합니다.
-            </h2>
-          </div>
-          <div className="h2-partners-grid" style={{ display: 'grid' }}>
-            <PartnerCard name="경영지도 컨설팅" role="드림플러스" person="김내영 대표" />
-            <PartnerCard name="영상촬영" role="캠핑삼촌" person="" />
-            <PartnerCard name="법무법인 우리" role="법률 자문" person="정상수 변호사" />
-            <PartnerCard name="세무법인 가감" role="세무 자문" person="유원상 세무사" />
-            <PartnerCard name="세법인 기업" role="유밀안 세무사" person="" />
-            <PartnerCard name="영필름미디어" role="이영재 감독" person="" />
-            <PartnerCard name="지산튜브(부동산유튜브)" role="" person="" />
-            <PartnerCard name="인 다이렉트 카보험" role="보험" person="신인철 대표" />
-            <PartnerCard name="하람 손해사정" role="손해사정" person="정원호 대표" />
-            <PartnerCard name="(주)국민M&A" role="M&A" person="곽대영 대표" />
-            <PartnerCard name="건강한 다이어" role="건강" person="박미선 대표" />
-            <PartnerCard name="에이치앤이드" role="광고기획사" person="" />
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '16px'
+          }}>
+            {[
+              { line1: '경영지도 컨설팅', line2: '드림플러스 김내영 대표', link: '' },
+              { line1: '캠핑삼춘[CampingUncle]', line2: '유튜브', link: 'https://www.youtube.com/@CampingUncle' },
+              { line1: '법무법인 우리', line2: '정상수 변호사', link: '' },
+              { line1: '세무법인 가감', line2: '유원상 세무사', link: '' },
+              { line1: '영필름대표 이영재 감독', line2: '', link: '' },
+              { line1: '지산튜브(부동산유튜브)', line2: '', link: 'https://www.youtube.com/@jisantube' },
+              { line1: '인 다이렉트 카보험', line2: '신인철 대표', link: '' },
+              { line1: '하람 손해사정', line2: '정원호 대표', link: '' },
+              { line1: '(주)국민M&A', line2: '곽대영 대표', link: '' },
+              { line1: '건강한 다이아', line2: '박미선 대표', link: '' },
+              { line1: '제로디자인', line2: '이준상 대표', link: '' },
+              { line1: '에이치&에드', line2: '광고기획사', link: '' },
+            ].map((p, i) => (
+              <div key={i} style={{
+                backgroundColor: '#ffffff',
+                border: '2px dashed #90b0ff',
+                borderRadius: '10px',
+                padding: 'clamp(18px, 2.5vw, 28px) clamp(12px, 2vw, 20px)',
+                textAlign: 'center',
+                transition: 'all 0.3s',
+                cursor: 'pointer',
+                minHeight: '80px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.transform = 'translateY(-3px)';
+                e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,0.15)';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
+              onClick={() => p.link && window.open(p.link, '_blank')}>
+                <p style={{
+                  fontSize: 'clamp(13px, 1.3vw, 15px)',
+                  fontWeight: '600',
+                  color: '#333',
+                  margin: 0,
+                  lineHeight: '1.6'
+                }}>
+                  {p.line1}
+                </p>
+                {p.line2 && (
+                  <p style={{
+                    fontSize: '13px',
+                    color: '#666',
+                    margin: '2px 0 0',
+                    lineHeight: '1.5'
+                  }}>
+                    {p.line2}
+                  </p>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -362,22 +423,28 @@ export default function Home2() {
       >
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <div className="h2-location-grid" style={{ display: 'grid' }}>
-            <LocationCard
-              title="메타비즈랩 (본사)"
-              subtitle="Main Office"
-              address="서울특별시 마포구 마포대로 144 마포디오"
-              phone="1600-3797"
-              hours="*사업 가능 시간: 월-금 9:00~18:00(우림, 공휴일 휴무)"
-              mapHtml={`<div id="daumRoughmapContainer1775275004997" class="root_daum_roughmap root_daum_roughmap_landing"></div><script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script><script charset="UTF-8">new daum.roughmap.Lander({"timestamp":"1775275004997","key":"29oemj76o9xw","mapWidth":"640","mapHeight":"360"}).render();</script>`}
-            />
-            <LocationCard
-              title="메타비즈랩 (지사)"
-              subtitle="Branch Office"
-              address="경기도 고양시 덕양구 황동로 218, 1층 A0145호(Gate 5)"
-              email="meta@meta-bizab.co.kr"
-              hours="*24시간 접수 가능"
-              mapHtml={`<div id="daumRoughmapContainer1775275072404" class="root_daum_roughmap root_daum_roughmap_landing"></div><script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script><script charset="UTF-8">new daum.roughmap.Lander({"timestamp":"1775275072404","key":"29oeo5dk324o","mapWidth":"640","mapHeight":"360"}).render();</script>`}
-            />
+            <div className="loc-main" style={{ order: 1 }}>
+              <LocationCard
+                title="메타비즈랩 (본사)"
+                subtitle="Main Office"
+                address="서울특별시 마포구 마포대로 144 마포T타운(04212)"
+                mapHtml={`<div id="daumRoughmapContainer1775275004997" class="root_daum_roughmap root_daum_roughmap_landing"></div><script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script><script charset="UTF-8">new daum.roughmap.Lander({"timestamp":"1775275004997","key":"29oemj76o9xw","mapWidth":"640","mapHeight":"360"}).render();</script>`}
+              />
+            </div>
+            <div className="loc-branch" style={{ order: 2 }}>
+              <LocationCard
+                title="메타비즈랩 (지사)"
+                subtitle="Branch Office"
+                address="경기도 고양시 덕양구 황동로 218, 1층 A0145호(Gate 5)"
+                mapHtml={`<div id="daumRoughmapContainer1775275072404" class="root_daum_roughmap root_daum_roughmap_landing"></div><script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script><script charset="UTF-8">new daum.roughmap.Lander({"timestamp":"1775275072404","key":"29oeo5dk324o","mapWidth":"640","mapHeight":"360"}).render();</script>`}
+              />
+            </div>
+            <div className="loc-phone" style={{ order: 3 }}>
+              <InfoBox label="대표번호" value="1600-3797" sub="평일 09:00-18:00" />
+            </div>
+            <div className="loc-email" style={{ order: 4 }}>
+              <InfoBox label="이메일 문의" value="meta@meta-bizlab.co.kr" sub="24시간 접수 가능" />
+            </div>
           </div>
         </div>
       </section>
@@ -394,46 +461,47 @@ export default function Home2() {
 
 function FinanceIcon() {
   return (
-    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-      <circle cx="24" cy="24" r="20" stroke="#0f3278" strokeWidth="1.5" fill="none" />
-      <path d="M16 28l4-6 4 4 6-8" stroke="#0f3278" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-      <circle cx="16" cy="28" r="1.5" fill="#0f3278" />
-      <circle cx="20" cy="22" r="1.5" fill="#0f3278" />
-      <circle cx="24" cy="26" r="1.5" fill="#0f3278" />
-      <circle cx="30" cy="18" r="1.5" fill="#0f3278" />
+    <svg width="64" height="64" viewBox="0 0 48 48" fill="none">
+      <circle cx="24" cy="16" r="10" stroke="#555" strokeWidth="1.3" />
+      <path d="M20 16h8M24 12v8" stroke="#555" strokeWidth="1.3" strokeLinecap="round" />
+      <path d="M19 30c0-2 2-4 5-4s5 2 5 4" stroke="#555" strokeWidth="1.3" strokeLinecap="round" />
+      <path d="M18 34h12" stroke="#555" strokeWidth="1.3" strokeLinecap="round" />
+      <path d="M20 38h8" stroke="#555" strokeWidth="1.3" strokeLinecap="round" />
     </svg>
   );
 }
 
 function RiskIcon() {
   return (
-    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-      <rect x="12" y="8" width="24" height="32" rx="3" stroke="#0f3278" strokeWidth="1.5" />
-      <circle cx="24" cy="22" r="6" stroke="#0f3278" strokeWidth="1.5" />
-      <rect x="22" y="19" width="4" height="8" rx="2" stroke="#0f3278" strokeWidth="1.2" fill="none" />
-      <line x1="24" y1="30" x2="24" y2="34" stroke="#0f3278" strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="20" y1="34" x2="28" y2="34" stroke="#0f3278" strokeWidth="1.5" strokeLinecap="round" />
+    <svg width="64" height="64" viewBox="0 0 48 48" fill="none">
+      <rect x="12" y="6" width="24" height="36" rx="3" stroke="#555" strokeWidth="1.3" />
+      <circle cx="24" cy="24" r="7" stroke="#555" strokeWidth="1.3" />
+      <rect x="22" y="20" width="4" height="10" rx="2" stroke="#555" strokeWidth="1.2" fill="none" />
+      <line x1="24" y1="33" x2="24" y2="36" stroke="#555" strokeWidth="1.3" strokeLinecap="round" />
+      <line x1="20" y1="36" x2="28" y2="36" stroke="#555" strokeWidth="1.3" strokeLinecap="round" />
     </svg>
   );
 }
 
 function TaxIcon() {
   return (
-    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-      <circle cx="24" cy="24" r="14" stroke="#0f3278" strokeWidth="1.5" />
-      <text x="24" y="29" textAnchor="middle" fill="#0f3278" fontSize="16" fontWeight="700">&#8361;</text>
+    <svg width="64" height="64" viewBox="0 0 48 48" fill="none">
+      <circle cx="24" cy="24" r="18" stroke="#555" strokeWidth="1.3" />
+      <text x="24" y="30" textAnchor="middle" fill="#555" fontSize="18" fontWeight="700">&#8361;</text>
     </svg>
   );
 }
 
 function ConsultingIcon() {
   return (
-    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-      <rect x="8" y="12" width="32" height="24" rx="2" stroke="#0f3278" strokeWidth="1.5" />
-      <line x1="8" y1="18" x2="40" y2="18" stroke="#0f3278" strokeWidth="1" opacity="0.4" />
-      <polyline points="16,30 22,22 28,28 34,20" stroke="#0f3278" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-      <circle cx="16" cy="30" r="1.5" fill="#0f3278" />
-      <circle cx="34" cy="20" r="1.5" fill="#0f3278" />
+    <svg width="64" height="64" viewBox="0 0 48 48" fill="none">
+      <rect x="6" y="10" width="36" height="26" rx="2" stroke="#555" strokeWidth="1.3" />
+      <line x1="6" y1="16" x2="42" y2="16" stroke="#555" strokeWidth="1" opacity="0.4" />
+      <polyline points="14,30 20,22 26,28 34,18" stroke="#555" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="14" cy="30" r="1.5" fill="#555" />
+      <circle cx="20" cy="22" r="1.5" fill="#555" />
+      <circle cx="26" cy="28" r="1.5" fill="#555" />
+      <circle cx="34" cy="18" r="1.5" fill="#555" />
     </svg>
   );
 }
@@ -486,10 +554,11 @@ function ConcernIcon4() {
 function ServiceCard({ icon, title }: { icon: React.ReactNode; title: string }) {
   return (
     <div style={{
-      backgroundColor: 'rgba(255,255,255,0.95)',
-      border: '1px solid #e0e6f0',
-      padding: 'clamp(32px, 4vw, 48px) clamp(16px, 2vw, 24px)',
-      borderRadius: '16px',
+      backgroundColor: 'rgba(255,255,255,0.85)',
+      backdropFilter: 'blur(8px)',
+      border: '1px solid rgba(255,255,255,0.6)',
+      padding: 'clamp(36px, 5vw, 56px) clamp(16px, 2vw, 24px)',
+      borderRadius: '12px',
       textAlign: 'center',
       transition: 'all 0.3s',
       cursor: 'pointer',
@@ -497,17 +566,17 @@ function ServiceCard({ icon, title }: { icon: React.ReactNode; title: string }) 
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      boxShadow: '0 2px 12px rgba(0,0,0,0.04)'
+      boxShadow: '0 4px 20px rgba(0,0,0,0.08)'
     }}
     onMouseOver={(e) => {
       e.currentTarget.style.transform = 'translateY(-6px)';
-      e.currentTarget.style.boxShadow = '0 12px 32px rgba(15,50,120,0.12)';
-      e.currentTarget.style.borderColor = '#0f3278';
+      e.currentTarget.style.boxShadow = '0 12px 32px rgba(15,50,120,0.15)';
+      e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.95)';
     }}
     onMouseOut={(e) => {
       e.currentTarget.style.transform = 'translateY(0)';
-      e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,0,0,0.04)';
-      e.currentTarget.style.borderColor = '#e0e6f0';
+      e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.08)';
+      e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.85)';
     }}>
       <div style={{ marginBottom: '18px' }}>{icon}</div>
       <h3 style={{
@@ -517,6 +586,43 @@ function ServiceCard({ icon, title }: { icon: React.ReactNode; title: string }) 
         margin: 0,
         lineHeight: '1.4'
       }}>{title}</h3>
+    </div>
+  );
+}
+
+function ConcernCardBlue({ text }: { text: string }) {
+  return (
+    <div style={{
+      backgroundColor: '#ffffff',
+      border: '1px solid rgba(255,255,255,0.3)',
+      padding: 'clamp(28px, 4vw, 40px) clamp(20px, 3vw, 32px)',
+      borderRadius: '12px',
+      textAlign: 'center',
+      transition: 'all 0.3s',
+      cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      minHeight: '120px'
+    }}
+    onMouseOver={(e) => {
+      e.currentTarget.style.transform = 'translateY(-4px)';
+      e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.15)';
+    }}
+    onMouseOut={(e) => {
+      e.currentTarget.style.transform = 'translateY(0)';
+      e.currentTarget.style.boxShadow = 'none';
+    }}>
+      <p style={{
+        fontSize: 'clamp(14px, 1.4vw, 16px)',
+        fontWeight: '500',
+        color: '#333',
+        lineHeight: '1.8',
+        margin: 0,
+        whiteSpace: 'pre-line'
+      }}>
+        {text}
+      </p>
     </div>
   );
 }
@@ -622,9 +728,33 @@ function PartnerCard({ name, role, person }: { name: string; role: string; perso
   );
 }
 
-function LocationCard({ title, subtitle, address, phone, email, hours, mapHtml }: {
-  title: string; subtitle?: string; address: string;
-  phone?: string; email?: string; hours?: string; mapHtml?: string;
+function InfoBox({ label, value, sub }: { label: string; value: string; sub?: string }) {
+  return (
+    <div style={{
+      backgroundColor: '#f4f7fc',
+      border: '1px solid #e8edf5',
+      borderRadius: '12px',
+      padding: '24px 20px',
+      textAlign: 'center',
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }}>
+      <p style={{ fontSize: '11px', color: '#999', fontWeight: '600', letterSpacing: '0.5px', marginBottom: '8px', textTransform: 'uppercase' }}>
+        {label}
+      </p>
+      <p style={{ fontSize: 'clamp(16px, 1.8vw, 20px)', color: '#0f3278', fontWeight: '800', marginBottom: '6px' }}>
+        {value}
+      </p>
+      {sub && <p style={{ fontSize: '12px', color: '#999', margin: 0 }}>{sub}</p>}
+    </div>
+  );
+}
+
+function LocationCard({ title, subtitle, address, mapHtml }: {
+  title: string; subtitle?: string; address: string; mapHtml?: string;
 }) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
@@ -648,30 +778,28 @@ function LocationCard({ title, subtitle, address, phone, email, hours, mapHtml }
   }, [mapHtml]);
 
   return (
-    <div style={{
-      backgroundColor: '#ffffff',
-      border: '1px solid #e8edf5',
-      borderRadius: '16px',
-      overflow: 'hidden',
-      transition: 'all 0.3s'
-    }}
-    onMouseOver={(e) => {
-      e.currentTarget.style.boxShadow = '0 12px 40px rgba(15,50,120,0.1)';
-      e.currentTarget.style.transform = 'translateY(-4px)';
-    }}
-    onMouseOut={(e) => {
-      e.currentTarget.style.boxShadow = 'none';
-      e.currentTarget.style.transform = 'translateY(0)';
-    }}>
-      {/* 헤더 */}
+    <div>
       <div style={{
-        padding: '20px 24px',
-        borderBottom: '1px solid #e8edf5',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center'
+        backgroundColor: '#ffffff',
+        border: '1px solid #e8edf5',
+        borderRadius: '16px',
+        overflow: 'hidden',
+        transition: 'all 0.3s',
+        marginBottom: '16px'
+      }}
+      onMouseOver={(e) => {
+        e.currentTarget.style.boxShadow = '0 12px 40px rgba(15,50,120,0.1)';
+        e.currentTarget.style.transform = 'translateY(-4px)';
+      }}
+      onMouseOut={(e) => {
+        e.currentTarget.style.boxShadow = 'none';
+        e.currentTarget.style.transform = 'translateY(0)';
       }}>
-        <div>
+        {/* 헤더 */}
+        <div style={{
+          padding: '20px 24px',
+          borderBottom: '1px solid #e8edf5',
+        }}>
           {subtitle && (
             <span style={{ fontSize: '11px', color: '#0f3278', fontWeight: '700', letterSpacing: '1px' }}>
               {subtitle}
@@ -679,22 +807,20 @@ function LocationCard({ title, subtitle, address, phone, email, hours, mapHtml }
           )}
           <h3 style={{ fontSize: 'clamp(15px, 1.5vw, 17px)', fontWeight: '700', color: '#0f3278', marginTop: '4px' }}>{title}</h3>
         </div>
+
+        {/* 카카오맵 */}
+        <iframe
+          ref={iframeRef}
+          style={{ width: '100%', height: '240px', border: 'none', display: 'block' }}
+          title={`${title} 지도`}
+        />
+
+        {/* 주소 */}
+        <div style={{ padding: 'clamp(18px, 2.5vw, 24px)' }}>
+          <p style={{ fontSize: '13px', color: '#777', margin: 0, lineHeight: '1.6' }}>{address}</p>
+        </div>
       </div>
 
-      {/* 카카오맵 */}
-      <iframe
-        ref={iframeRef}
-        style={{ width: '100%', height: '240px', border: 'none', display: 'block' }}
-        title={`${title} 지도`}
-      />
-
-      {/* 정보 */}
-      <div style={{ padding: 'clamp(18px, 2.5vw, 24px)' }}>
-        <p style={{ fontSize: '13px', color: '#777', margin: '0 0 10px', lineHeight: '1.6' }}>{address}</p>
-        {phone && <p style={{ fontSize: '18px', color: '#0f3278', fontWeight: '800', marginBottom: '6px' }}>{phone}</p>}
-        {email && <p style={{ fontSize: '14px', color: '#0f3278', fontWeight: '600', marginBottom: '6px' }}>{email}</p>}
-        {hours && <p style={{ fontSize: '11px', color: '#aaa', marginTop: '10px', fontStyle: 'italic' }}>{hours}</p>}
-      </div>
     </div>
   );
 }

@@ -30,14 +30,11 @@ export default function Footer() {
                 gap: '8px',
                 marginBottom: '16px'
               }}>
-                <span style={{ fontSize: '16px', color: '#d4af37' }}>◆</span>
-                <span style={{
-                  fontSize: '18px',
-                  fontWeight: '700',
-                  letterSpacing: '0.5px'
-                }}>
-                  META BIZLAB
-                </span>
+                <img
+                  src="/metabizlab/images/metabizlab-logo.png"
+                  alt="META BIZLAB"
+                  style={{ height: '34px', width: 'auto' }}
+                />
               </div>
               <p style={{
                 color: 'rgba(255, 255, 255, 0.5)',
@@ -85,13 +82,13 @@ export default function Footer() {
               </h4>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                 <li style={{ marginBottom: '10px', color: 'rgba(255,255,255,0.5)', fontSize: '13px' }}>
-                  서울특별시 마포구 마포대로 144
+                  서울특별시 마포구 마포대로 144 마포T타운(04212)
                 </li>
                 <li style={{ marginBottom: '10px', color: 'rgba(255,255,255,0.5)', fontSize: '13px' }}>
                   1600-3797
                 </li>
                 <li style={{ marginBottom: '10px', color: 'rgba(255,255,255,0.5)', fontSize: '13px' }}>
-                  meta@meta-bizab.co.kr
+                  meta@meta-bizlab.co.kr
                 </li>
                 <li style={{ marginTop: '16px' }}>
                   <button
@@ -342,7 +339,7 @@ export default function Footer() {
                 <ul style={{ marginTop: '8px', paddingLeft: '20px' }}>
                   <li>개인정보 보호책임자: 메타비즈랩 대표</li>
                   <li>연락처: 1600-3797</li>
-                  <li>이메일: meta@meta-bizab.co.kr</li>
+                  <li>이메일: meta@meta-bizlab.co.kr</li>
                 </ul>
               </PrivacySection>
 
