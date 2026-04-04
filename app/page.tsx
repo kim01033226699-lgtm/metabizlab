@@ -70,7 +70,7 @@ export default function Home() {
         {/* Full hero background image (covers hero text + services) */}
         <div style={{
           position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 0,
-          backgroundImage: 'url(/images/hero.png)',
+          backgroundImage: 'url(/metabizlab/images/hero.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center'
         }}>
@@ -255,7 +255,7 @@ export default function Home() {
               minHeight: '380px',
               position: 'relative',
               overflow: 'hidden',
-              backgroundImage: 'url(/images/career.png)',
+              backgroundImage: 'url(/metabizlab/images/career.png)',
               backgroundSize: 'cover',
               backgroundPosition: 'center'
             }} />
