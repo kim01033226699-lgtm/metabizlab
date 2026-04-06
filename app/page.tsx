@@ -719,17 +719,17 @@ function PartnersSlider() {
   const [canScrollRight, setCanScrollRight] = useState(true);
 
   const partners = [
-    { name: '드림플러스', role: '경영지도 컨설팅', person: '김내영 대표', link: '' },
+    { name: '드림플러스', role: '경영지도 컨설팅', person: '김내영 대표', link: 'https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=%EA%B9%80%EB%82%B4%EC%98%81&ackey=n884foqs' },
     { name: '캠핑삼춘[CampingUncle]', role: '유튜브', person: '', link: 'https://www.youtube.com/@CampingUncle' },
-    { name: '법무법인 우리', role: '법률 자문', person: '정상수 변호사', link: '' },
-    { name: '세무법인 가감', role: '세무 자문', person: '유원상 세무사', link: '' },
+    { name: '법무법인 우리', role: '법률 자문', person: '정상수 변호사', link: 'http://www.wooreelaw.co.kr/' },
+    { name: '세무법인 가감', role: '세무 자문', person: '유원상 세무사', link: 'https://www.gagamtax.co.kr/' },
     { name: '영필름', role: '영상 제작', person: '이영재 감독', link: '' },
     { name: '지산튜브', role: '부동산 유튜브', person: '', link: 'https://www.youtube.com/@jisantube' },
-    { name: '인 다이렉트 카보험', role: '보험', person: '신인철 대표', link: '' },
+    { name: '인 다이렉트 카', role: '보험', person: '신인철 대표', link: '' },
     { name: '하람 손해사정', role: '손해사정', person: '정원호 대표', link: '' },
     { name: '(주)국민M&A', role: 'M&A', person: '곽대영 대표', link: '' },
     { name: '건강한 다이아', role: '건강', person: '박미선 대표', link: '' },
-    { name: '제로디자인', role: '디자인', person: '이준상 대표', link: '' },
+    { name: '제로디자인', role: '디자인', person: '이준상 대표', link: 'https://zerodesign.co.kr/' },
     { name: '에이치&애드', role: '광고기획사', person: '', link: '' },
   ];
 
