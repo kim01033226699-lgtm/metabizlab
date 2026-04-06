@@ -174,14 +174,15 @@ export default function Home2() {
         {/* 배경 이미지 (비즈니스 악수) */}
         <div style={{
           position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
-          backgroundImage: 'url(/metabizlab/images/business-handshake.jpg)',
+          backgroundImage: 'url(/metabizlab/images/meet.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
+          filter: 'blur(2px)',
           zIndex: 0
         }}>
           <div style={{
             position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
-            background: 'rgba(80,90,110,0.6)'
+            background: 'rgba(80,90,110,0.5)'
           }} />
         </div>
 

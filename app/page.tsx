@@ -728,9 +728,9 @@ function PartnersSlider() {
     { name: '인 다이렉트 카보험', role: '보험', person: '신인철 대표', link: '' },
     { name: '하람 손해사정', role: '손해사정', person: '정원호 대표', link: '' },
     { name: '(주)국민M&A', role: 'M&A', person: '곽대영 대표', link: '' },
-    { name: '건강한 다이어', role: '건강', person: '박미선 대표', link: '' },
+    { name: '건강한 다이아', role: '건강', person: '박미선 대표', link: '' },
     { name: '제로디자인', role: '디자인', person: '이준상 대표', link: '' },
-    { name: '에이치앤이드', role: '광고기획사', person: '', link: '' },
+    { name: '에이치&애드', role: '광고기획사', person: '', link: '' },
   ];
 
   const checkScroll = () => {
