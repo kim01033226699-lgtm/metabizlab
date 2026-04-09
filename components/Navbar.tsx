@@ -35,9 +35,14 @@ export default function Navbar() {
       <style>{`
         .nav-desktop { display: flex; }
         .nav-hamburger { display: none; }
+        .nav-inner { height: 128px; }
         @media (max-width: 1024px) {
           .nav-desktop { display: none !important; }
           .nav-hamburger { display: block !important; }
+        }
+        @media (max-width: 640px) {
+          .nav-inner { height: 56px !important; }
+          .nav-logo { height: 28px !important; }
         }
       `}</style>
       <nav style={{
@@ -55,11 +60,10 @@ export default function Navbar() {
           margin: '0 auto',
           padding: '0 20px'
         }}>
-          <div style={{
+          <div className="nav-inner" style={{
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            height: '128px'
           }}>
             {/* Logo */}
             <a href="#about" style={{
@@ -70,6 +74,7 @@ export default function Navbar() {
               <img
                 src="/metabizlab/images/metabizlab-logo.png"
                 alt="META BIZLAB"
+                className="nav-logo"
                 style={{ height: '43px', width: 'auto' }}
               />
             </a>

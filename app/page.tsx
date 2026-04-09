@@ -25,6 +25,7 @@ function useScrollReveal() {
 export default function Home() {
   const [showRecruit, setShowRecruit] = useState(false);
   const [showConsult, setShowConsult] = useState(false);
+  const [showConcernDetail, setShowConcernDetail] = useState<number | null>(null);
   const servicesReveal = useScrollReveal();
 
   return (
@@ -164,10 +165,10 @@ export default function Home() {
             gap: '16px',
             marginTop: '40px'
           }}>
-            <ConcernCard icon={<ConcernIcon1 />} text="매출은 꾸준한데 왜 남는 돈이 적은지 고민해보신 적 있으신가요?" onClick={() => setShowConsult(true)} />
-            <ConcernCard icon={<ConcernIcon2 />} text="세금이나 고정비를 줄일 수 있는 방법이 궁금하신가요?" onClick={() => setShowConsult(true)} />
-            <ConcernCard icon={<ConcernIcon3 />} text="사업 운영 중 발생할 수 있는 위험에 대비가 되어 있으신가요?" onClick={() => setShowConsult(true)} />
-            <ConcernCard icon={<ConcernIcon4 />} text="창업, 마케팅, 플랫폼을 어떻게 시작해야 할지 궁금하신가요?" onClick={() => setShowConsult(true)} />
+            <ConcernCard icon={<ConcernIcon1 />} text="매출은 꾸준한데 왜 남는 돈이 적은지 고민해보신 적 있으신가요?" onClick={() => setShowConcernDetail(1)} />
+            <ConcernCard icon={<ConcernIcon2 />} text="세금이나 고정비를 줄일 수 있는 방법이 궁금하신가요?" onClick={() => setShowConcernDetail(2)} />
+            <ConcernCard icon={<ConcernIcon3 />} text="사업 운영 중 발생할 수 있는 위험에 대비가 되어 있으신가요?" onClick={() => setShowConcernDetail(3)} />
+            <ConcernCard icon={<ConcernIcon4 />} text="창업, 마케팅, 플랫폼을 어떻게 시작해야 할지 궁금하신가요?" onClick={() => setShowConcernDetail(4)} />
           </div>
         </div>
       </section>
@@ -342,6 +343,15 @@ export default function Home() {
 
       {/* 채용문의 팝업 */}
       {showRecruit && <RecruitPopup onClose={() => setShowRecruit(false)} />}
+
+      {/* 고민 상세 팝업 */}
+      {showConcernDetail !== null && (
+        <ConcernDetailPopup
+          type={showConcernDetail}
+          onClose={() => setShowConcernDetail(null)}
+          onConsult={() => { setShowConcernDetail(null); setShowConsult(true); }}
+        />
+      )}
 
       {/* 상담신청 팝업 */}
       {showConsult && <ConsultPopup onClose={() => setShowConsult(false)} />}
@@ -576,6 +586,146 @@ function ServiceDetailCard({ icon, title, items }: { icon: React.ReactNode; titl
 
 /* ─── Recruit Popup ─── */
 
+/* ─── 고민 상세 팝업 ─── */
+
+const CONCERN_DETAILS = [
+  {
+    title: '매출은 꾸준한데 왜 남도 적은지,\n한 번쯤 해보신 적 있으신가요?',
+    body: '매출 대비 낮은 순이익은 대개 비용 구조의 고착화나 불필요한 세무 리스크 때문입니다.\n특히 대표님의 급여 체계, 퇴직금 재원 마련 방식, 그리고 법인 카드의 비용처리적 사용 등을 점검하여\n데이터가 만든 절감 리포트를 제공해드립니다.',
+    extra: '현재 법인 내 장단에 대표님 임원퇴직금 보수 및 퇴직금 규정의 최신 세법에 맞게 정비되어 있으신가요?',
+    icon: '💰',
+  },
+  {
+    title: '세금이나 고정비를 줄일 수 있는 방법\n이 궁금하신가요?',
+    body: '세금이나 고정비를 줄이기 위해 정부 지원 정책(고용 지원금 등)을 먼저 활용하고, 비용 처리를\n최적화해야 합니다. 특히, 합법적인 미처분 이익잉여금 회수 전략(자기주식 취득, 배당 전략 등)을 병행하여\n불필요한 세금 부담을 사전에 차단하는 것이 핵심입니다.',
+    extra: '지난 3년간 정부에서 제공하는 \'고용증대 세액공제\'나 \'연구소 설립 혜택\'을 놓치지 않고 모두 적용받으셨나요?',
+    icon: '🖥️',
+  },
+  {
+    title: '사업 운영 중 발생할 수 있는 위험에\n한 번쯤 해보신 적 있으신가요?',
+    body: '법인 운영 리스크는 크게 \'대표님의 유고 시 유동성 위기\'와 \'노무/법적 분쟁\'입니다.\n단체 보험을 통한 비용 처리와 동시에 경영인 정기보험 등을 활용하여 긴급 자금 확보 및\n유족의 상속세 재원을 마련하는 입체적인 설계가 필수입니다.',
+    extra: '갑작스러운 경영 공백 발생 시, 사업권을 방어하고 상속세를 납부할 만한 현금성 자산이 법인 내에 준비되어 있나요?',
+    icon: '🏠',
+  },
+  {
+    title: '창업, 마케팅, 플랫폼을 어떻게 시작\n해야 할지 궁금하신가요?',
+    body: '초기 기업일수록 자본금 설정과 지분 구조가 향후 투자 유치나 기업 승계의 성패를 결정합니다.\n마케팅과 플랫폼 확장에 앞서 정책 자금을 원활히 조달할 수 있는 \'기업 등급 관리\'가\n선행되어야 마케팅 비용을 효율적으로 집행할 수 있습니다.',
+    extra: '현재 기업의 신용등급이나 벤처기업 인증 등 정부 자금 조달을 위한 필수 요건들을 갖추고 계신가요?',
+    icon: '⚙️',
+  },
+];
+
+function ConcernDetailPopup({ type, onClose, onConsult }: { type: number; onClose: () => void; onConsult: () => void }) {
+  const data = CONCERN_DETAILS[type - 1];
+  const [showMore, setShowMore] = useState(false);
+
+  return (
+    <div
+      style={{
+        position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+        backgroundColor: 'rgba(0,0,0,0.7)', zIndex: 9998,
+        display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px'
+      }}
+      onClick={onClose}
+    >
+      <div
+        style={{
+          backgroundColor: '#1a2a4a', borderRadius: '16px', maxWidth: '580px',
+          width: 'calc(100% - 32px)', maxHeight: 'calc(100vh - 40px)', overflow: 'auto',
+          padding: 'clamp(24px, 4vw, 44px) clamp(16px, 3vw, 36px)',
+          textAlign: 'center', position: 'relative',
+          boxSizing: 'border-box'
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* 닫기 버튼 */}
+        <button onClick={onClose} style={{
+          position: 'absolute', top: '12px', right: '12px',
+          background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)',
+          fontSize: '28px', cursor: 'pointer', lineHeight: 1, padding: '4px',
+          transition: 'color 0.3s'
+        }}
+        onMouseOver={(e) => e.currentTarget.style.color = '#ffffff'}
+        onMouseOut={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.5)'}
+        >&times;</button>
+
+        {!showMore ? (
+          /* 1단계: 아이콘 + 제목 + 본문 + 다음 버튼 */
+          <>
+            <div style={{ fontSize: '48px', marginBottom: '20px' }}>{data.icon}</div>
+            <h2 style={{
+              fontSize: 'clamp(18px, 2.5vw, 22px)', fontWeight: '700', color: '#ffffff',
+              lineHeight: '1.6', marginBottom: '24px', whiteSpace: 'pre-line'
+            }}>
+              {data.title}
+            </h2>
+            <p style={{
+              fontSize: 'clamp(12px, 1.3vw, 14px)', color: 'rgba(255,255,255,0.7)',
+              lineHeight: '1.9', marginBottom: '28px', textAlign: 'left',
+              whiteSpace: 'pre-line'
+            }}>
+              {data.body}
+            </p>
+            <button
+              onClick={() => setShowMore(true)}
+              style={{
+                backgroundColor: 'rgba(255,255,255,0.1)', color: '#ffffff',
+                border: '1px solid rgba(255,255,255,0.2)', borderRadius: '8px',
+                padding: '14px 32px', fontSize: '15px', fontWeight: '600',
+                cursor: 'pointer', transition: 'all 0.3s', width: '100%',
+                maxWidth: '320px'
+              }}
+              onMouseOver={(e) => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.15)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.4)'; }}
+              onMouseOut={(e) => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'; }}
+            >
+              다음
+            </button>
+          </>
+        ) : (
+          /* 2단계: 추가 질문 내용 + 1:1 문의하기 */
+          <>
+            <div style={{ fontSize: '48px', marginBottom: '20px' }}>{data.icon}</div>
+
+            <div style={{
+              backgroundColor: 'rgba(255,255,255,0.06)', borderRadius: '10px',
+              padding: '16px 20px', marginBottom: '28px', textAlign: 'left'
+            }}>
+              <p style={{
+                fontSize: 'clamp(12px, 1.2vw, 13px)', color: 'rgba(255,255,255,0.8)',
+                lineHeight: '1.7'
+              }}>
+                {data.extra}
+              </p>
+            </div>
+
+            <button
+              onClick={onConsult}
+              style={{
+                backgroundColor: '#3b6abf', color: '#ffffff',
+                border: 'none', borderRadius: '8px',
+                padding: '14px 32px', fontSize: '15px', fontWeight: '700',
+                cursor: 'pointer', transition: 'all 0.3s', width: '100%',
+                maxWidth: '320px'
+              }}
+              onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#2d5aa0'}
+              onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#3b6abf'}
+            >
+              1:1 문의하기
+            </button>
+
+            <p style={{
+              fontSize: '11px', color: 'rgba(255,255,255,0.35)',
+              marginTop: '12px'
+            }}>
+              *전문가 답변은 평일 기준 1~2일 소요될 수 있습니다.
+            </p>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
 /* ─── 상담신청 팝업 ─── */
 
 function ConsultPopup({ onClose }: { onClose: () => void }) {
@@ -605,7 +755,8 @@ function ConsultPopup({ onClose }: { onClose: () => void }) {
       <div
         style={{
           backgroundColor: '#ffffff', borderRadius: '12px', maxWidth: '560px',
-          width: '100%', maxHeight: '90vh', overflow: 'hidden',
+          width: 'calc(100% - 32px)', maxHeight: 'calc(100vh - 40px)', overflow: 'hidden',
+          boxSizing: 'border-box' as const,
           display: 'flex', flexDirection: 'column'
         }}
         onClick={(e) => e.stopPropagation()}
@@ -884,8 +1035,9 @@ function RecruitPopup({ onClose }: { onClose: () => void }) {
           backgroundColor: '#ffffff',
           borderRadius: '12px',
           maxWidth: '640px',
-          width: '100%',
-          maxHeight: '90vh',
+          width: 'calc(100% - 32px)',
+          maxHeight: 'calc(100vh - 40px)',
+          boxSizing: 'border-box' as const,
           overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column'

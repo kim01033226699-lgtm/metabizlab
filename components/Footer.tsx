@@ -18,7 +18,7 @@ export default function Footer() {
         }}>
           <div style={{
             display: 'grid',
-            gridTemplateColumns: '1.2fr 0.8fr 0.8fr 1fr',
+            gridTemplateColumns: '1.2fr 0.8fr 1fr',
             gap: '40px',
             marginBottom: '40px'
           }}>
@@ -81,14 +81,20 @@ export default function Footer() {
                 Contact
               </h4>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                <li style={{ marginBottom: '10px', color: 'rgba(255,255,255,0.5)', fontSize: '13px' }}>
-                  서울특별시 마포구 마포대로 144 마포T타운(04212)
+                <li style={{ marginBottom: '6px', color: 'rgba(255,255,255,0.7)', fontSize: '13px', fontWeight: '600' }}>
+                  메타비즈랩
+                </li>
+                <li style={{ marginBottom: '6px', color: 'rgba(255,255,255,0.5)', fontSize: '12px' }}>
+                  대표자 유경희 | 등록번호 340-19-01025
+                </li>
+                <li style={{ marginBottom: '10px', color: 'rgba(255,255,255,0.5)', fontSize: '12px' }}>
+                  경기도 고양시 덕양구 향동로 218
+                </li>
+                <li style={{ marginBottom: '6px', color: 'rgba(255,255,255,0.5)', fontSize: '13px' }}>
+                  T. 1600-3797
                 </li>
                 <li style={{ marginBottom: '10px', color: 'rgba(255,255,255,0.5)', fontSize: '13px' }}>
-                  1600-3797
-                </li>
-                <li style={{ marginBottom: '10px', color: 'rgba(255,255,255,0.5)', fontSize: '13px' }}>
-                  meta@meta-bizlab.co.kr
+                  M. meta@meta-bizlab.co.kr
                 </li>
                 <li style={{ marginTop: '16px' }}>
                   <button
@@ -114,75 +120,6 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* Get in Touch */}
-            <div>
-              <h4 style={{
-                fontSize: '12px',
-                fontWeight: '600',
-                marginBottom: '16px',
-                color: 'rgba(255,255,255,0.4)',
-                letterSpacing: '1.5px',
-                textTransform: 'uppercase'
-              }}>
-                Get in Touch
-              </h4>
-              <form style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '8px'
-              }}>
-                <input
-                  type="text"
-                  placeholder="Name"
-                  style={{
-                    padding: '9px 12px',
-                    backgroundColor: 'rgba(255,255,255,0.04)',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    borderRadius: '3px',
-                    color: '#ffffff',
-                    fontSize: '12px',
-                    outline: 'none',
-                    transition: 'border-color 0.3s'
-                  }}
-                  onFocus={(e) => e.target.style.borderColor = 'rgba(212,175,55,0.4)'}
-                  onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.1)'}
-                />
-                <input
-                  type="text"
-                  placeholder="Message"
-                  style={{
-                    padding: '9px 12px',
-                    backgroundColor: 'rgba(255,255,255,0.04)',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    borderRadius: '3px',
-                    color: '#ffffff',
-                    fontSize: '12px',
-                    outline: 'none',
-                    transition: 'border-color 0.3s'
-                  }}
-                  onFocus={(e) => e.target.style.borderColor = 'rgba(212,175,55,0.4)'}
-                  onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.1)'}
-                />
-                <button
-                  type="button"
-                  style={{
-                    padding: '9px 16px',
-                    backgroundColor: '#d4af37',
-                    color: '#0f3278',
-                    border: 'none',
-                    borderRadius: '3px',
-                    fontSize: '12px',
-                    fontWeight: '600',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s'
-                  }}
-                  onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#c9a631'}
-                  onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#d4af37'}
-                >
-                  Submit
-                </button>
-              </form>
-            </div>
           </div>
 
           {/* Bottom bar - centered copyright only */}
@@ -218,8 +155,9 @@ export default function Footer() {
               backgroundColor: '#ffffff',
               borderRadius: '12px',
               maxWidth: '800px',
-              width: '100%',
-              maxHeight: '80vh',
+              width: 'calc(100% - 32px)',
+              maxHeight: 'calc(100vh - 40px)',
+              boxSizing: 'border-box' as const,
               overflow: 'hidden',
               display: 'flex',
               flexDirection: 'column'
