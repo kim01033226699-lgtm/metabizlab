@@ -730,6 +730,8 @@ function ConcernDetailPopup({ type, onClose, onConsult }: { type: number; onClos
 
 function ConsultPopup({ onClose }: { onClose: () => void }) {
   const [consultType, setConsultType] = useState('창업');
+  const [privacyAgreed, setPrivacyAgreed] = useState(false);
+  const [showPrivacyDetail, setShowPrivacyDetail] = useState(false);
   const inputStyle: React.CSSProperties = {
     width: '100%', padding: '12px 14px', border: '1px solid #ddd',
     borderRadius: '4px', fontSize: '14px', outline: 'none',
@@ -845,19 +847,116 @@ function ConsultPopup({ onClose }: { onClose: () => void }) {
               />
             </div>
 
+            {/* 개인정보 동의 */}
+            <div style={{ marginTop: '16px', padding: '14px 0', borderTop: '1px solid #eee' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <input
+                  type="checkbox"
+                  id="privacyAgree"
+                  checked={privacyAgreed}
+                  onChange={(e) => setPrivacyAgreed(e.target.checked)}
+                  style={{ accentColor: '#0f3278', width: '18px', height: '18px', cursor: 'pointer' }}
+                />
+                <label htmlFor="privacyAgree" style={{ fontSize: '13px', color: '#333', cursor: 'pointer', flex: 1 }}>
+                  개인정보 수집 및 이용에 동의합니다. <span style={{ color: '#999', fontSize: '12px' }}>(필수)</span>
+                </label>
+                <button
+                  type="button"
+                  onClick={() => setShowPrivacyDetail(true)}
+                  style={{
+                    background: 'none', border: '1px solid #ddd', borderRadius: '4px',
+                    padding: '4px 10px', fontSize: '12px', color: '#666',
+                    cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 0.2s'
+                  }}
+                  onMouseOver={(e) => { e.currentTarget.style.borderColor = '#0f3278'; e.currentTarget.style.color = '#0f3278'; }}
+                  onMouseOut={(e) => { e.currentTarget.style.borderColor = '#ddd'; e.currentTarget.style.color = '#666'; }}
+                >
+                  내용보기
+                </button>
+              </div>
+            </div>
+
             {/* 보내기 */}
-            <button type="submit" style={{
-              width: '100%', backgroundColor: '#0f3278', color: '#ffffff',
+            <button type="submit" disabled={!privacyAgreed} style={{
+              width: '100%', backgroundColor: privacyAgreed ? '#0f3278' : '#ccc', color: '#ffffff',
               padding: '14px', borderRadius: '8px', fontSize: '15px', fontWeight: '700',
-              border: 'none', cursor: 'pointer', transition: 'all 0.3s', marginTop: '16px'
+              border: 'none', cursor: privacyAgreed ? 'pointer' : 'not-allowed', transition: 'all 0.3s', marginTop: '12px'
             }}
-            onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#0a2560'}
-            onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#0f3278'}>
+            onMouseOver={(e) => { if (privacyAgreed) e.currentTarget.style.backgroundColor = '#0a2560'; }}
+            onMouseOut={(e) => { if (privacyAgreed) e.currentTarget.style.backgroundColor = '#0f3278'; }}>
               보내기
             </button>
           </form>
         </div>
       </div>
+
+      {/* 개인정보처리방침 상세 팝업 */}
+      {showPrivacyDetail && (
+        <div
+          style={{
+            position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+            backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 10001,
+            display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px'
+          }}
+          onClick={() => setShowPrivacyDetail(false)}
+        >
+          <div
+            style={{
+              backgroundColor: '#fff', borderRadius: '12px', maxWidth: '560px',
+              width: 'calc(100% - 32px)', maxHeight: 'calc(100vh - 40px)',
+              overflow: 'hidden', display: 'flex', flexDirection: 'column',
+              boxSizing: 'border-box' as const
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{
+              padding: '16px 20px', borderBottom: '1px solid #eee',
+              display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0
+            }}>
+              <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#0f3278', margin: 0 }}>개인정보 수집 및 이용 동의</h3>
+              <button onClick={() => setShowPrivacyDetail(false)} style={{
+                background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: '#ccc', lineHeight: 1
+              }}>&times;</button>
+            </div>
+            <div style={{ padding: '20px', overflowY: 'auto', fontSize: '13px', color: '#444', lineHeight: '1.9' }}>
+              <p style={{ marginBottom: '16px' }}>
+                메타비즈랩(이하 &quot;회사&quot;)에서는 고객의 개인 정보를 매우 소중하게 생각하며 정보주체의 권익을 보호하기 위하여 적법하고 적정하게 취급할 것입니다. 전기통신기본법, 전기통신사업법, 개인 정보 보호법 및 동법 시행령 등 관련 법이 정하는 대로 준수하고 있습니다.
+              </p>
+
+              <h4 style={{ fontSize: '14px', fontWeight: '700', color: '#0f3278', marginBottom: '8px' }}>■ 수집하는 개인 정보 항목</h4>
+              <p style={{ marginBottom: '4px' }}>&quot;회사&quot;는 원활한 고객상담, 각종 서비스의 제공을 위해 아래와 같은 개인 정보를 수집하고 있습니다.</p>
+              <p style={{ marginBottom: '4px', fontWeight: '600' }}>[상담 신청 시 수집항목]</p>
+              <ul style={{ paddingLeft: '20px', marginBottom: '16px' }}>
+                <li>수집항목: 이름, 연락처, 이메일</li>
+                <li>기타 정보: 상담 요청 정보</li>
+                <li>자동 수집: IP Address, 쿠키, 방문 일시, 서비스 이용 기록</li>
+              </ul>
+
+              <h4 style={{ fontSize: '14px', fontWeight: '700', color: '#0f3278', marginBottom: '8px' }}>■ 개인정보의 수집 및 이용목적</h4>
+              <ul style={{ paddingLeft: '20px', marginBottom: '16px' }}>
+                <li>상담정보: 전화나 문자, 카카오톡을 이용한 고객 상담 및 안내</li>
+                <li>기타: 문자 및 SNS를 통한 상담 소식, 정보 등의 안내, 설문조사, 불만 처리 등</li>
+              </ul>
+
+              <h4 style={{ fontSize: '14px', fontWeight: '700', color: '#0f3278', marginBottom: '8px' }}>■ 개인 정보의 처리 및 보유기간</h4>
+              <p style={{ marginBottom: '4px' }}>이용자의 개인 정보는 원칙적으로 수집 및 이용목적이 달성되거나 이용자가 직접 삭제, 수정한 경우 파기합니다.</p>
+              <ul style={{ paddingLeft: '20px', marginBottom: '16px' }}>
+                <li>상담신청정보: 수집일로부터 5년 혹은 상담 목적 달성 시까지</li>
+                <li>소비자 불만/분쟁처리 기록: 3년</li>
+                <li>신용정보 수집/처리 기록: 3년</li>
+                <li>방문 기록: 3개월</li>
+                <li>본인확인 기록: 6개월</li>
+              </ul>
+
+              <h4 style={{ fontSize: '14px', fontWeight: '700', color: '#0f3278', marginBottom: '8px' }}>■ 동의 거부 권리 및 불이익</h4>
+              <p>
+                개인정보 수집에 대해 동의를 거부할 권리가 있으며, 동의 거부 시에는 상담 신청 등의 서비스가 제한됩니다.
+                위 개인정보는 서비스를 이용하기 위해 필요한 최소한의 정보이므로 동의를 해주셔야만 서비스를 이용하실 수 있습니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
