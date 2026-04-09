@@ -591,8 +591,8 @@ function ServiceDetailCard({ icon, title, items }: { icon: React.ReactNode; titl
 const CONCERN_DETAILS = [
   {
     title: '매출은 꾸준한데 왜 남도 적은지,\n한 번쯤 해보신 적 있으신가요?',
-    body: '매출 대비 낮은 순이익은 대개 비용 구조의 고착화나 불필요한 세무 리스크 때문입니다.\n특히 대표님의 급여 체계, 퇴직금 재원 마련 방식, 그리고 법인 카드의 비용처리적 사용 등을 점검하여\n데이터가 만든 절감 리포트를 제공해드립니다.',
-    extra: '현재 법인 내 장단에 대표님 임원퇴직금 보수 및 퇴직금 규정의 최신 세법에 맞게 정비되어 있으신가요?',
+    body: '매출 대비 낮은 순이익은 대개 비용 구조의 고착화나 불필요한 세무 리스크 때문입니다. 특히 대표님의 급여 체계, 퇴직금 재원 마련 방식, 그리고 법인카드의 비효율적 사용 등을 점검하여 \'새어나가는 현금 흐름\'을 먼저 차단해야 합니다.',
+    extra: '현재 법인 내부 정관에 대표님과 임원의 보수 및 퇴직금 규정이 최신 세법에 맞게 정비되어 있나요?',
     icon: '💰',
   },
   {
@@ -710,7 +710,7 @@ function ConcernDetailPopup({ type, onClose, onConsult }: { type: number; onClos
               onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#2d5aa0'}
               onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#3b6abf'}
             >
-              1:1 문의하기
+              문의하기
             </button>
 
             <p style={{
