@@ -355,7 +355,7 @@ export default function Home() {
         />
       )}
 
-      {/* 상담신청 팝업 */}
+      {/* 문의하기 팝업 */}
       {showConsult && <ConsultPopup onClose={() => setShowConsult(false)} />}
     </div>
   );
@@ -505,7 +505,17 @@ function ConcernCard({ icon, text, onClick }: { icon: React.ReactNode; text: str
       <div style={{ marginBottom: '16px', opacity: 0.9 }}>
         {icon}
       </div>
-      {text}
+      <div>{text}</div>
+      <span style={{
+        display: 'inline-block',
+        marginTop: '14px',
+        fontSize: '12px',
+        fontWeight: '700',
+        letterSpacing: '0.5px',
+        opacity: 0.7,
+      }}>
+        더보기 →
+      </span>
     </div>
   );
 }
@@ -728,7 +738,7 @@ function ConcernDetailPopup({ type, onClose, onConsult }: { type: number; onClos
   );
 }
 
-/* ─── 상담신청 팝업 ─── */
+/* ─── 문의하기 팝업 ─── */
 
 function ConsultPopup({ onClose }: { onClose: () => void }) {
   const [consultType, setConsultType] = useState('창업');
@@ -770,7 +780,7 @@ function ConsultPopup({ onClose }: { onClose: () => void }) {
           padding: '20px 28px', borderBottom: '1px solid #eee',
           display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0
         }}>
-          <h2 style={{ fontSize: '20px', fontWeight: '700', color: '#0f3278', margin: 0 }}>상담신청</h2>
+          <h2 style={{ fontSize: '20px', fontWeight: '700', color: '#0f3278', margin: 0 }}>문의하기</h2>
           <button onClick={onClose} style={{
             background: 'none', border: 'none', fontSize: '28px',
             cursor: 'pointer', color: '#ccc', lineHeight: 1, padding: '4px'
@@ -783,7 +793,7 @@ function ConsultPopup({ onClose }: { onClose: () => void }) {
             style={{ padding: '0 28px 28px' }}
             onSubmit={(e) => {
               e.preventDefault();
-              alert('상담신청이 접수되었습니다. 감사합니다.');
+              alert('문의하기이 접수되었습니다. 감사합니다.');
               onClose();
             }}
           >
@@ -943,7 +953,7 @@ function ConsultPopup({ onClose }: { onClose: () => void }) {
               <h4 style={{ fontSize: '14px', fontWeight: '700', color: '#0f3278', marginBottom: '8px' }}>■ 개인 정보의 처리 및 보유기간</h4>
               <p style={{ marginBottom: '4px' }}>이용자의 개인 정보는 원칙적으로 수집 및 이용목적이 달성되거나 이용자가 직접 삭제, 수정한 경우 파기합니다.</p>
               <ul style={{ paddingLeft: '20px', marginBottom: '16px' }}>
-                <li>상담신청정보: 수집일로부터 5년 혹은 상담 목적 달성 시까지</li>
+                <li>문의하기정보: 수집일로부터 5년 혹은 상담 목적 달성 시까지</li>
                 <li>소비자 불만/분쟁처리 기록: 3년</li>
                 <li>신용정보 수집/처리 기록: 3년</li>
                 <li>방문 기록: 3개월</li>
