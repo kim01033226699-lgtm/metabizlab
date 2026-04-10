@@ -66,6 +66,8 @@ export default function Home() {
           .loc-branch { order: 2; }
           .loc-phone { order: 3; }
           .loc-email { order: 4; }
+          .partner-slide { width: 144px !important; }
+          .partner-card-inner { min-height: 90px !important; }
         }
       `}</style>
 
@@ -1072,7 +1074,7 @@ function PartnersSlider() {
       >
 {/* scrollbar hidden via inline scrollbarWidth + msOverflowStyle */}
         {partners.map((p, i) => (
-          <div key={i} style={{
+          <div key={i} className="partner-slide" style={{
             scrollSnapAlign: 'start',
             flexShrink: 0,
             width: '240px'
@@ -1350,6 +1352,7 @@ function RecruitPopup({ onClose }: { onClose: () => void }) {
 function PartnerCard({ name, role, person }: { name: string; role: string; person: string }) {
   return (
     <div
+      className="partner-card-inner"
       style={{
         position: 'relative',
         borderRadius: '12px',

@@ -151,6 +151,27 @@ export default function Navbar() {
           justifyContent: 'center',
           gap: '0'
         }}>
+          {/* X 닫기 버튼 */}
+          <button
+            onClick={() => setIsMenuOpen(false)}
+            style={{
+              position: 'absolute',
+              top: '16px',
+              right: '20px',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              color: '#ffffff',
+              padding: '8px',
+              zIndex: 1003,
+            }}
+            aria-label="닫기"
+          >
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <line x1="6" y1="6" x2="18" y2="18" />
+              <line x1="6" y1="18" x2="18" y2="6" />
+            </svg>
+          </button>
           {menuItems.map((item) => (
             <a
               key={item.href}
