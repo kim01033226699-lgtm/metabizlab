@@ -1189,10 +1189,10 @@ function RecruitPopup({ onClose }: { onClose: () => void }) {
 
   const inputStyle: React.CSSProperties = {
     width: '100%',
-    padding: '10px 12px',
+    padding: '8px 10px',
     border: '1px solid #ddd',
     borderRadius: '4px',
-    fontSize: '14px',
+    fontSize: '12px',
     outline: 'none',
     transition: 'border-color 0.3s',
     boxSizing: 'border-box' as const,
@@ -1200,17 +1200,17 @@ function RecruitPopup({ onClose }: { onClose: () => void }) {
     minWidth: 0,
   };
   const labelStyle: React.CSSProperties = {
-    fontSize: '14px',
+    fontSize: '13px',
     fontWeight: '700',
     color: '#333',
-    minWidth: '70px',
+    minWidth: '55px',
     flexShrink: 0
   };
   const rowStyle: React.CSSProperties = {
     display: 'flex',
-    alignItems: 'center',
-    gap: '12px',
-    padding: '14px 0',
+    flexDirection: 'column' as const,
+    gap: '6px',
+    padding: '12px 0',
     borderBottom: '1px solid #eee',
     overflow: 'hidden',
   };
@@ -1225,7 +1225,7 @@ function RecruitPopup({ onClose }: { onClose: () => void }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '20px'
+        padding: '8px'
       }}
       onClick={onClose}
     >
@@ -1234,8 +1234,8 @@ function RecruitPopup({ onClose }: { onClose: () => void }) {
           backgroundColor: '#ffffff',
           borderRadius: '12px',
           maxWidth: '640px',
-          width: 'calc(100% - 32px)',
-          maxHeight: 'calc(100vh - 40px)',
+          width: '100%',
+          maxHeight: 'calc(100vh - 20px)',
           boxSizing: 'border-box' as const,
           overflow: 'hidden',
           display: 'flex',
