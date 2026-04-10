@@ -106,7 +106,7 @@ export default function Home2() {
           <div className="h2-hero-right">
             {[1,2,3,4,5,6].map((i) => (
               <div key={i} style={{
-                backgroundImage: 'url(/metabizlab/images/hero.png)',
+                backgroundImage: 'url(/images/hero.png)',
                 backgroundSize: 'cover',
                 backgroundPosition: `${(i % 3) * 33}% ${i <= 3 ? '30%' : '70%'}`,
               }} />
@@ -174,7 +174,7 @@ export default function Home2() {
         {/* 배경 이미지 (비즈니스 악수) */}
         <div style={{
           position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
-          backgroundImage: 'url(/metabizlab/images/meet.png)',
+          backgroundImage: 'url(/images/meet.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           filter: 'blur(2px)',

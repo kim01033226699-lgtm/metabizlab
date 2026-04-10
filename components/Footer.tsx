@@ -31,7 +31,7 @@ export default function Footer() {
                 marginBottom: '16px'
               }}>
                 <img
-                  src="/metabizlab/images/metabizlab-logo.png"
+                  src="/images/metabizlab-logo.png"
                   alt="META BIZLAB"
                   style={{ height: '34px', width: 'auto' }}
                 />

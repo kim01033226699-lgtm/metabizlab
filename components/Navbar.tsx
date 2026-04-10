@@ -72,7 +72,7 @@ export default function Navbar() {
               textDecoration: 'none'
             }}>
               <img
-                src="/metabizlab/images/metabizlab-logo.png"
+                src="/images/metabizlab-logo.png"
                 alt="META BIZLAB"
                 className="nav-logo"
                 style={{ height: '43px', width: 'auto' }}
