@@ -24,6 +24,10 @@ body {
   overflow-x: hidden;
 }
 
+body.popup-open {
+  overflow: hidden !important;
+}
+
 /* Brand Colors */
 :root {
   --primary-dark: #0f3278;

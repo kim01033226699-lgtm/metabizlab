@@ -41,8 +41,8 @@ export default function Navbar() {
           .nav-hamburger { display: block !important; }
         }
         @media (max-width: 640px) {
-          .nav-inner { height: 56px !important; }
-          .nav-logo { height: 28px !important; }
+          .nav-inner { height: 73px !important; }
+          .nav-logo { height: 36px !important; }
         }
       `}</style>
       <nav style={{

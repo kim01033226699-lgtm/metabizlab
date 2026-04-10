@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
@@ -136,7 +136,8 @@ export default function Home() {
           marginTop: '-30px',
           transform: servicesReveal.visible ? 'translateY(0)' : 'translateY(40px)',
           opacity: servicesReveal.visible ? 1 : 0,
-          transition: 'transform 0.8s ease-out, opacity 0.8s ease-out'
+          transition: 'transform 0.8s ease-out, opacity 0.8s ease-out',
+          scrollMarginTop: '200px',
         }}
       >
         <div className="hero-cards-grid" style={{ display: 'grid' }}>
@@ -603,25 +604,25 @@ function ServiceDetailCard({ icon, title, items }: { icon: React.ReactNode; titl
 const CONCERN_DETAILS = [
   {
     title: '매출은 꾸준한데 왜 남도 적은지,\n한 번쯤 해보신 적 있으신가요?',
-    body: '매출 대비 낮은 순이익은 대개 비용 구조의 고착화나 불필요한 세무 리스크 때문입니다. 특히 대표님의 급여 체계, 퇴직금 재원 마련 방식, 그리고 법인카드의 비효율적 사용 등을 점검하여 \'새어나가는 현금 흐름\'을 먼저 차단해야 합니다.',
+    body: '매출 대비 낮은 순이익은 대개 비용 구조의 고착화나 불필요한 세무 리스크 때문입니다. 특히 대표님의 급여 체계, 퇴직금 재원 마련 방식, 그리고 법인카드의 비효율적 사용 등을 점검하여 새어나가는 현금 흐름을 먼저 차단해야 합니다.',
     extra: '현재 법인 내부 정관에 대표님과 임원의 보수 및 퇴직금 규정이 최신 세법에 맞게 정비되어 있나요?',
     icon: '💰',
   },
   {
     title: '세금이나 고정비를 줄일 수 있는 방법\n이 궁금하신가요?',
-    body: '세금이나 고정비를 줄이기 위해 정부 지원 정책(고용 지원금 등)을 먼저 활용하고, 비용 처리를\n최적화해야 합니다. 특히, 합법적인 미처분 이익잉여금 회수 전략(자기주식 취득, 배당 전략 등)을 병행하여\n불필요한 세금 부담을 사전에 차단하는 것이 핵심입니다.',
+    body: '세금이나 고정비를 줄이기 위해 정부 지원 정책(고용 지원금 등)을 먼저 활용하고, 비용 처리를 최적화해야 합니다. 특히, 합법적인 미처분 이익잉여금 회수 전략(자기주식 취득, 배당 전략 등)을 병행하여 불필요한 세금 부담을 사전에 차단하는 것이 핵심입니다.',
     extra: '지난 3년간 정부에서 제공하는 \'고용증대 세액공제\'나 \'연구소 설립 혜택\'을 놓치지 않고 모두 적용받으셨나요?',
     icon: '🖥️',
   },
   {
     title: '사업 운영 중 발생할 수 있는 위험에\n한 번쯤 해보신 적 있으신가요?',
-    body: '법인 운영 리스크는 크게 \'대표님의 유고 시 유동성 위기\'와 \'노무/법적 분쟁\'입니다.\n단체 보험을 통한 비용 처리와 동시에 경영인 정기보험 등을 활용하여 긴급 자금 확보 및\n유족의 상속세 재원을 마련하는 입체적인 설계가 필수입니다.',
+    body: '법인 운영 리스크는 크게 대표님의 유고 시 유동성 위기와 노무/법적 분쟁입니다. 단체 보험을 통한 비용 처리와 동시에 경영인 정기보험 등을 활용하여 긴급 자금 확보 및 유족의 상속세 재원을 마련하는 입체적인 설계가 필수입니다.',
     extra: '갑작스러운 경영 공백 발생 시, 사업권을 방어하고 상속세를 납부할 만한 현금성 자산이 법인 내에 준비되어 있나요?',
     icon: '🏠',
   },
   {
     title: '창업, 마케팅, 플랫폼을 어떻게 시작\n해야 할지 궁금하신가요?',
-    body: '초기 기업일수록 자본금 설정과 지분 구조가 향후 투자 유치나 기업 승계의 성패를 결정합니다.\n마케팅과 플랫폼 확장에 앞서 정책 자금을 원활히 조달할 수 있는 \'기업 등급 관리\'가\n선행되어야 마케팅 비용을 효율적으로 집행할 수 있습니다.',
+    body: '초기 기업일수록 자본금 설정과 지분 구조가 향후 투자 유치나 기업 승계의 성패를 결정합니다. 마케팅과 플랫폼 확장에 앞서 정책 자금을 원활히 조달할 수 있는 기업 등급 관리가 선행되어야 마케팅 비용을 효율적으로 집행할 수 있습니다.',
     extra: '현재 기업의 신용등급이나 벤처기업 인증 등 정부 자금 조달을 위한 필수 요건들을 갖추고 계신가요?',
     icon: '⚙️',
   },
@@ -630,6 +631,11 @@ const CONCERN_DETAILS = [
 function ConcernDetailPopup({ type, onClose, onConsult }: { type: number; onClose: () => void; onConsult: () => void }) {
   const data = CONCERN_DETAILS[type - 1];
   const [showMore, setShowMore] = useState(false);
+
+  React.useEffect(() => {
+    document.body.classList.add('popup-open');
+    return () => document.body.classList.remove('popup-open');
+  }, []);
 
   return (
     <div
@@ -744,17 +750,24 @@ function ConsultPopup({ onClose }: { onClose: () => void }) {
   const [consultType, setConsultType] = useState('창업');
   const [privacyAgreed, setPrivacyAgreed] = useState(false);
   const [showPrivacyDetail, setShowPrivacyDetail] = useState(false);
+
+  React.useEffect(() => {
+    document.body.classList.add('popup-open');
+    return () => document.body.classList.remove('popup-open');
+  }, []);
+
   const inputStyle: React.CSSProperties = {
-    width: '100%', padding: '12px 14px', border: '1px solid #ddd',
-    borderRadius: '4px', fontSize: '14px', outline: 'none',
-    transition: 'border-color 0.3s', boxSizing: 'border-box' as const, fontFamily: 'inherit'
+    width: '100%', padding: '8px 10px', border: '1px solid #ddd',
+    borderRadius: '4px', fontSize: '12px', outline: 'none',
+    transition: 'border-color 0.3s', boxSizing: 'border-box' as const, fontFamily: 'inherit',
+    minWidth: 0,
   };
   const labelStyle: React.CSSProperties = {
-    fontSize: '14px', fontWeight: '700', color: '#333', minWidth: '80px', flexShrink: 0
+    fontSize: '13px', fontWeight: '700', color: '#333', minWidth: '55px', flexShrink: 0
   };
   const rowStyle: React.CSSProperties = {
-    display: 'flex', alignItems: 'center', gap: '16px',
-    padding: '16px 0', borderBottom: '1px solid #eee'
+    display: 'flex', flexDirection: 'column' as const, gap: '6px',
+    padding: '12px 0', borderBottom: '1px solid #eee', overflow: 'hidden',
   };
 
   return (
@@ -762,14 +775,14 @@ function ConsultPopup({ onClose }: { onClose: () => void }) {
       style={{
         position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
         backgroundColor: 'rgba(0,0,0,0.6)', zIndex: 9999,
-        display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px'
+        display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px'
       }}
       onClick={onClose}
     >
       <div
         style={{
           backgroundColor: '#ffffff', borderRadius: '12px', maxWidth: '560px',
-          width: 'calc(100% - 32px)', maxHeight: 'calc(100vh - 40px)', overflow: 'hidden',
+          width: '100%', maxHeight: 'calc(100vh - 20px)', overflow: 'hidden',
           boxSizing: 'border-box' as const,
           display: 'flex', flexDirection: 'column'
         }}
@@ -790,7 +803,7 @@ function ConsultPopup({ onClose }: { onClose: () => void }) {
         {/* Form */}
         <div style={{ overflowY: 'auto', flex: 1 }}>
           <form
-            style={{ padding: '0 28px 28px' }}
+            style={{ padding: '0 clamp(16px, 4vw, 28px) clamp(16px, 4vw, 28px)' }}
             onSubmit={(e) => {
               e.preventDefault();
               alert('문의하기이 접수되었습니다. 감사합니다.');
@@ -808,19 +821,19 @@ function ConsultPopup({ onClose }: { onClose: () => void }) {
             {/* 연락처 */}
             <div style={rowStyle}>
               <label style={labelStyle}>연락처</label>
-              <div style={{ display: 'flex', gap: '8px', flex: 1, alignItems: 'center' }}>
+              <div style={{ display: 'flex', gap: '4px', flex: 1, alignItems: 'center', minWidth: 0 }}>
                 <input type="text" required placeholder="010" maxLength={3}
-                  style={{ ...inputStyle, textAlign: 'center' as const }}
+                  style={{ ...inputStyle, textAlign: 'center' as const, flex: 1 }}
                   onFocus={(e) => e.target.style.borderColor = '#0f3278'}
                   onBlur={(e) => e.target.style.borderColor = '#ddd'} />
-                <span style={{ color: '#ccc' }}>-</span>
+                <span style={{ color: '#ccc', flexShrink: 0 }}>-</span>
                 <input type="text" required placeholder="0000" maxLength={4}
-                  style={{ ...inputStyle, textAlign: 'center' as const }}
+                  style={{ ...inputStyle, textAlign: 'center' as const, flex: 1 }}
                   onFocus={(e) => e.target.style.borderColor = '#0f3278'}
                   onBlur={(e) => e.target.style.borderColor = '#ddd'} />
-                <span style={{ color: '#ccc' }}>-</span>
+                <span style={{ color: '#ccc', flexShrink: 0 }}>-</span>
                 <input type="text" required placeholder="0000" maxLength={4}
-                  style={{ ...inputStyle, textAlign: 'center' as const }}
+                  style={{ ...inputStyle, textAlign: 'center' as const, flex: 1 }}
                   onFocus={(e) => e.target.style.borderColor = '#0f3278'}
                   onBlur={(e) => e.target.style.borderColor = '#ddd'} />
               </div>
@@ -1010,7 +1023,7 @@ function PartnersSlider() {
     return () => el.removeEventListener('scroll', checkScroll);
   }, []);
 
-  // 자동 슬라이드 (3초마다)
+  // 자동 슬라이드 (6초마다)
   useEffect(() => {
     const interval = setInterval(() => {
       const el = scrollRef.current;
@@ -1020,7 +1033,7 @@ function PartnersSlider() {
       } else {
         el.scrollBy({ left: 260, behavior: 'smooth' });
       }
-    }, 3000);
+    }, 6000);
     return () => clearInterval(interval);
   }, []);
 
@@ -1031,42 +1044,7 @@ function PartnersSlider() {
   };
 
   return (
-    <div style={{ position: 'relative' }}>
-      {/* 왼쪽 화살표 */}
-      {canScrollLeft && (
-        <button
-          onClick={() => scroll('left')}
-          style={{
-            position: 'absolute', left: '-20px', top: '50%', transform: 'translateY(-50%)',
-            width: '44px', height: '44px', borderRadius: '50%',
-            backgroundColor: '#ffffff', border: '1px solid #e0e6f0',
-            boxShadow: '0 2px 12px rgba(0,0,0,0.1)',
-            cursor: 'pointer', zIndex: 2,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '18px', color: '#0f3278', fontWeight: '700'
-          }}
-        >
-          &#8249;
-        </button>
-      )}
-
-      {/* 오른쪽 화살표 */}
-      {canScrollRight && (
-        <button
-          onClick={() => scroll('right')}
-          style={{
-            position: 'absolute', right: '-20px', top: '50%', transform: 'translateY(-50%)',
-            width: '44px', height: '44px', borderRadius: '50%',
-            backgroundColor: '#ffffff', border: '1px solid #e0e6f0',
-            boxShadow: '0 2px 12px rgba(0,0,0,0.1)',
-            cursor: 'pointer', zIndex: 2,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '18px', color: '#0f3278', fontWeight: '700'
-          }}
-        >
-          &#8250;
-        </button>
-      )}
+    <div>
 
       {/* 스크롤 컨테이너 */}
       <div
@@ -1095,36 +1073,146 @@ function PartnersSlider() {
           </div>
         ))}
       </div>
+
+      {/* 좌우 버튼 - 하단 중앙 */}
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', marginTop: '20px' }}>
+        <button
+          onClick={() => scroll('left')}
+          style={{
+            width: '40px', height: '40px', borderRadius: '50%',
+            backgroundColor: canScrollLeft ? '#ffffff' : '#f0f0f0',
+            border: '1px solid #e0e6f0',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+            cursor: canScrollLeft ? 'pointer' : 'default',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: '16px', color: canScrollLeft ? '#0f3278' : '#ccc', fontWeight: '700',
+            transition: 'all 0.2s',
+            opacity: canScrollLeft ? 1 : 0.5,
+          }}
+        >
+          &#8249;
+        </button>
+        <button
+          onClick={() => scroll('right')}
+          style={{
+            width: '40px', height: '40px', borderRadius: '50%',
+            backgroundColor: canScrollRight ? '#ffffff' : '#f0f0f0',
+            border: '1px solid #e0e6f0',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+            cursor: canScrollRight ? 'pointer' : 'default',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: '16px', color: canScrollRight ? '#0f3278' : '#ccc', fontWeight: '700',
+            transition: 'all 0.2s',
+            opacity: canScrollRight ? 1 : 0.5,
+          }}
+        >
+          &#8250;
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ─── 협력사 그리드 (3열) ─── */
+
+function PartnersGrid() {
+  const partners = [
+    { name: '드림플러스', role: '경영지도 컨설팅', person: '김내영 대표', link: 'https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=%EA%B9%80%EB%82%B4%EC%98%81&ackey=n884foqs' },
+    { name: '캠핑삼춘[CampingUncle]', role: '유튜브', person: '', link: 'https://www.youtube.com/@CampingUncle' },
+    { name: '법무법인 우리', role: '법률 자문', person: '정상수 변호사', link: 'http://www.wooreelaw.co.kr/' },
+    { name: '세무법인 가감', role: '세무 자문', person: '유원상 세무사', link: 'https://www.gagamtax.co.kr/' },
+    { name: '영필름', role: '영상 제작', person: '이영재 감독', link: '' },
+    { name: '지산튜브', role: '부동산 유튜브', person: '', link: 'https://www.youtube.com/@jisantube' },
+    { name: '인 다이렉트 카', role: '보험', person: '신인철 대표', link: '' },
+    { name: '하람 손해사정', role: '손해사정', person: '정원호 대표', link: '' },
+    { name: '(주)국민M&A', role: 'M&A', person: '곽대영 대표', link: '' },
+    { name: '건강한 다이아', role: '건강', person: '박미선 대표', link: '' },
+    { name: '제로디자인', role: '디자인', person: '이준상 대표', link: 'https://zerodesign.co.kr/' },
+    { name: '에이치&애드', role: '광고기획사', person: '', link: '' },
+  ];
+
+  return (
+    <div style={{
+      display: 'grid',
+      gridTemplateColumns: 'repeat(3, 1fr)',
+      gap: '16px',
+    }}>
+      {partners.map((p, i) => (
+        <div
+          key={i}
+          onClick={() => p.link && window.open(p.link, '_blank')}
+          style={{
+            borderRadius: '12px',
+            overflow: 'hidden',
+            cursor: p.link ? 'pointer' : 'default',
+            height: '140px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: 'all 0.3s',
+            background: 'linear-gradient(135deg, #0a1628 0%, #0f2847 50%, #0d1f3a 100%)',
+            position: 'relative',
+          }}
+          onMouseOver={(e) => {
+            e.currentTarget.style.transform = 'translateY(-3px)';
+            e.currentTarget.style.boxShadow = '0 8px 24px rgba(15,50,120,0.25)';
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = 'none';
+          }}
+        >
+          <div style={{ textAlign: 'center', padding: '16px', position: 'relative', zIndex: 2 }}>
+            <h4 style={{ fontSize: '15px', fontWeight: '800', color: '#fff', marginBottom: '4px', lineHeight: '1.3' }}>
+              {p.name}
+            </h4>
+            <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.6)', marginBottom: p.person ? '4px' : '0', fontWeight: '500' }}>
+              {p.role}
+            </p>
+            {p.person && (
+              <p style={{ fontSize: '12px', color: '#d4af37', fontWeight: '700' }}>{p.person}</p>
+            )}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
 
 function RecruitPopup({ onClose }: { onClose: () => void }) {
   const [agreed, setAgreed] = useState(false);
+
+  React.useEffect(() => {
+    document.body.classList.add('popup-open');
+    return () => document.body.classList.remove('popup-open');
+  }, []);
+
   const inputStyle: React.CSSProperties = {
     width: '100%',
-    padding: '12px 14px',
+    padding: '10px 12px',
     border: '1px solid #ddd',
     borderRadius: '4px',
     fontSize: '14px',
     outline: 'none',
     transition: 'border-color 0.3s',
     boxSizing: 'border-box' as const,
-    fontFamily: 'inherit'
+    fontFamily: 'inherit',
+    minWidth: 0,
   };
   const labelStyle: React.CSSProperties = {
     fontSize: '14px',
     fontWeight: '700',
     color: '#333',
-    minWidth: '80px',
+    minWidth: '70px',
     flexShrink: 0
   };
   const rowStyle: React.CSSProperties = {
     display: 'flex',
     alignItems: 'center',
-    gap: '16px',
-    padding: '16px 0',
-    borderBottom: '1px solid #eee'
+    gap: '12px',
+    padding: '14px 0',
+    borderBottom: '1px solid #eee',
+    overflow: 'hidden',
   };
 
   return (
@@ -1181,7 +1269,7 @@ function RecruitPopup({ onClose }: { onClose: () => void }) {
         {/* Scrollable Form */}
         <div style={{ overflowY: 'auto', flex: 1 }}>
           <form
-            style={{ padding: '0 28px 28px' }}
+            style={{ padding: '0 clamp(16px, 4vw, 28px) clamp(16px, 4vw, 28px)' }}
             onSubmit={(e) => {
               e.preventDefault();
               if (!agreed) { alert('개인정보 수집 및 이용에 동의해 주세요.'); return; }
@@ -1368,7 +1456,7 @@ function PartnerCard({ name, role, person }: { name: string; role: string; perso
         borderRadius: '12px',
         overflow: 'hidden',
         cursor: 'pointer',
-        minHeight: '180px',
+        height: '180px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
