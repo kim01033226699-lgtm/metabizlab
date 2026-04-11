@@ -657,7 +657,7 @@ function ConcernDetailPopup({ type, onClose, onConsult }: { type: number; onClos
       <div
         style={{
           backgroundColor: '#1a2a4a', borderRadius: '16px', maxWidth: '560px',
-          width: '100%', maxHeight: 'calc(100vh - 20px)', overflow: 'auto',
+          width: '100%', height: 'min(480px, calc(100vh - 20px))', overflow: 'auto',
           padding: 'clamp(24px, 4vw, 44px) clamp(16px, 3vw, 36px)',
           textAlign: 'center', position: 'relative',
           boxSizing: 'border-box'
