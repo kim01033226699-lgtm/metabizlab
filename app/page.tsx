@@ -648,8 +648,8 @@ function ConcernDetailPopup({ type, onClose, onConsult }: { type: number; onClos
   return (
     <div
       style={{
-        position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-        backgroundColor: 'rgba(0,0,0,0.7)', zIndex: 9998,
+        position: 'fixed', top: '80px', left: 0, right: 0, bottom: 0,
+        backgroundColor: 'rgba(0,0,0,0.7)', zIndex: 998,
         display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px'
       }}
       onClick={onClose}
@@ -657,8 +657,8 @@ function ConcernDetailPopup({ type, onClose, onConsult }: { type: number; onClos
       <div
         style={{
           backgroundColor: '#1a2a4a', borderRadius: '16px', maxWidth: '560px',
-          width: '100%', height: 'min(480px, calc(100vh - 20px))', overflow: 'auto',
-          padding: 'clamp(24px, 4vw, 44px) clamp(16px, 3vw, 36px)',
+          width: '100%', height: 'min(480px, calc(100vh - 100px))',
+          display: 'flex', flexDirection: 'column',
           textAlign: 'center', position: 'relative',
           boxSizing: 'border-box'
         }}
@@ -669,29 +669,75 @@ function ConcernDetailPopup({ type, onClose, onConsult }: { type: number; onClos
           position: 'absolute', top: '12px', right: '12px',
           background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)',
           fontSize: '28px', cursor: 'pointer', lineHeight: 1, padding: '4px',
-          transition: 'color 0.3s'
+          transition: 'color 0.3s', zIndex: 2,
         }}
         onMouseOver={(e) => e.currentTarget.style.color = '#ffffff'}
         onMouseOut={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.5)'}
         >&times;</button>
 
-        {!showMore ? (
-          /* 1단계: 아이콘 + 제목 + 본문 + 다음 버튼 */
-          <>
-            <div style={{ fontSize: '48px', marginBottom: '20px' }}>{data.icon}</div>
-            <h2 style={{
-              fontSize: 'clamp(18px, 2.5vw, 22px)', fontWeight: '700', color: '#ffffff',
-              lineHeight: '1.6', marginBottom: '24px', whiteSpace: 'pre-line'
-            }}>
-              {data.title}
-            </h2>
-            <p style={{
-              fontSize: 'clamp(12px, 1.3vw, 14px)', color: 'rgba(255,255,255,0.7)',
-              lineHeight: '1.9', marginBottom: '28px', textAlign: 'left',
-              whiteSpace: 'pre-line'
-            }}>
-              {data.body}
-            </p>
+        {/* 콘텐츠 영역 (스크롤) */}
+        <div style={{ flex: 1, overflow: 'auto', padding: 'clamp(24px, 4vw, 44px) clamp(16px, 3vw, 36px) 0' }}>
+          {!showMore ? (
+            <>
+              <div style={{ fontSize: '48px', marginBottom: '20px' }}>{data.icon}</div>
+              <h2 style={{
+                fontSize: 'clamp(18px, 2.5vw, 22px)', fontWeight: '700', color: '#ffffff',
+                lineHeight: '1.6', marginBottom: '24px', padding: '0 clamp(16px, 3vw, 36px)',
+              }}>
+                {data.title}
+              </h2>
+              <p style={{
+                fontSize: 'clamp(12px, 1.3vw, 14px)', color: 'rgba(255,255,255,0.7)',
+                lineHeight: '1.9', textAlign: 'left', padding: '0 clamp(16px, 3vw, 36px)',
+              }}>
+                {data.body}
+              </p>
+            </>
+          ) : (
+            <>
+              {/* 뒤로가기 */}
+              <div style={{ textAlign: 'left', padding: '0 clamp(16px, 3vw, 36px)', marginBottom: '16px' }}>
+                <button
+                  onClick={() => setShowMore(false)}
+                  style={{
+                    background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)',
+                    fontSize: '14px', cursor: 'pointer', padding: '4px 0',
+                    display: 'flex', alignItems: 'center', gap: '4px',
+                  }}
+                  onMouseOver={(e) => e.currentTarget.style.color = '#ffffff'}
+                  onMouseOut={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.5)'}
+                >
+                  ←
+                </button>
+              </div>
+
+              <div style={{ fontSize: '48px', marginBottom: '16px' }}>{data.icon}</div>
+
+              <h2 style={{
+                fontSize: 'clamp(16px, 2vw, 20px)', fontWeight: '700', color: '#ffffff',
+                lineHeight: '1.5', marginBottom: '20px', padding: '0 clamp(16px, 3vw, 36px)',
+              }}>
+                {data.title}
+              </h2>
+
+              <div style={{
+                backgroundColor: 'rgba(255,255,255,0.06)', borderRadius: '10px',
+                padding: '16px 20px', textAlign: 'left', margin: '0 clamp(16px, 3vw, 36px)',
+              }}>
+                <p style={{
+                  fontSize: 'clamp(12px, 1.2vw, 13px)', color: 'rgba(255,255,255,0.8)',
+                  lineHeight: '1.7'
+                }}>
+                  {data.extra}
+                </p>
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* 하단 버튼 영역 (고정) */}
+        <div style={{ padding: '16px clamp(16px, 3vw, 36px) clamp(20px, 3vw, 32px)', flexShrink: 0 }}>
+          {!showMore ? (
             <button
               onClick={() => setShowMore(true)}
               style={{
@@ -706,47 +752,31 @@ function ConcernDetailPopup({ type, onClose, onConsult }: { type: number; onClos
             >
               다음
             </button>
-          </>
-        ) : (
-          /* 2단계: 추가 질문 내용 + 1:1 문의하기 */
-          <>
-            <div style={{ fontSize: '48px', marginBottom: '20px' }}>{data.icon}</div>
-
-            <div style={{
-              backgroundColor: 'rgba(255,255,255,0.06)', borderRadius: '10px',
-              padding: '16px 20px', marginBottom: '28px', textAlign: 'left'
-            }}>
+          ) : (
+            <>
+              <button
+                onClick={onConsult}
+                style={{
+                  backgroundColor: '#3b6abf', color: '#ffffff',
+                  border: 'none', borderRadius: '8px',
+                  padding: '14px 32px', fontSize: '15px', fontWeight: '700',
+                  cursor: 'pointer', transition: 'all 0.3s', width: '100%',
+                  maxWidth: '320px'
+                }}
+                onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#2d5aa0'}
+                onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#3b6abf'}
+              >
+                문의하기
+              </button>
               <p style={{
-                fontSize: 'clamp(12px, 1.2vw, 13px)', color: 'rgba(255,255,255,0.8)',
-                lineHeight: '1.7'
+                fontSize: '11px', color: 'rgba(255,255,255,0.35)',
+                marginTop: '12px'
               }}>
-                {data.extra}
+                *전문가 답변은 평일 기준 1~2일 소요될 수 있습니다.
               </p>
-            </div>
-
-            <button
-              onClick={onConsult}
-              style={{
-                backgroundColor: '#3b6abf', color: '#ffffff',
-                border: 'none', borderRadius: '8px',
-                padding: '14px 32px', fontSize: '15px', fontWeight: '700',
-                cursor: 'pointer', transition: 'all 0.3s', width: '100%',
-                maxWidth: '320px'
-              }}
-              onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#2d5aa0'}
-              onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#3b6abf'}
-            >
-              문의하기
-            </button>
-
-            <p style={{
-              fontSize: '11px', color: 'rgba(255,255,255,0.35)',
-              marginTop: '12px'
-            }}>
-              *전문가 답변은 평일 기준 1~2일 소요될 수 있습니다.
-            </p>
-          </>
-        )}
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
