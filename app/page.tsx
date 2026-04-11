@@ -633,8 +633,16 @@ function ConcernDetailPopup({ type, onClose, onConsult }: { type: number; onClos
   const [showMore, setShowMore] = useState(false);
 
   React.useEffect(() => {
+    const scrollY = window.scrollY;
+    document.body.style.top = `-${scrollY}px`;
     document.body.classList.add('popup-open');
-    return () => document.body.classList.remove('popup-open');
+    document.documentElement.classList.add('popup-open');
+    return () => {
+      document.body.classList.remove('popup-open');
+      document.documentElement.classList.remove('popup-open');
+      document.body.style.top = '';
+      window.scrollTo(0, scrollY);
+    };
   }, []);
 
   return (
@@ -642,14 +650,14 @@ function ConcernDetailPopup({ type, onClose, onConsult }: { type: number; onClos
       style={{
         position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
         backgroundColor: 'rgba(0,0,0,0.7)', zIndex: 9998,
-        display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px'
+        display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px'
       }}
       onClick={onClose}
     >
       <div
         style={{
-          backgroundColor: '#1a2a4a', borderRadius: '16px', maxWidth: '580px',
-          width: 'calc(100% - 32px)', maxHeight: 'calc(100vh - 40px)', overflow: 'auto',
+          backgroundColor: '#1a2a4a', borderRadius: '16px', maxWidth: '560px',
+          width: '100%', maxHeight: 'calc(100vh - 20px)', overflow: 'auto',
           padding: 'clamp(24px, 4vw, 44px) clamp(16px, 3vw, 36px)',
           textAlign: 'center', position: 'relative',
           boxSizing: 'border-box'
@@ -752,8 +760,16 @@ function ConsultPopup({ onClose }: { onClose: () => void }) {
   const [showPrivacyDetail, setShowPrivacyDetail] = useState(false);
 
   React.useEffect(() => {
+    const scrollY = window.scrollY;
+    document.body.style.top = `-${scrollY}px`;
     document.body.classList.add('popup-open');
-    return () => document.body.classList.remove('popup-open');
+    document.documentElement.classList.add('popup-open');
+    return () => {
+      document.body.classList.remove('popup-open');
+      document.documentElement.classList.remove('popup-open');
+      document.body.style.top = '';
+      window.scrollTo(0, scrollY);
+    };
   }, []);
 
   const inputStyle: React.CSSProperties = {
@@ -1183,8 +1199,16 @@ function RecruitPopup({ onClose }: { onClose: () => void }) {
   const [agreed, setAgreed] = useState(false);
 
   React.useEffect(() => {
+    const scrollY = window.scrollY;
+    document.body.style.top = `-${scrollY}px`;
     document.body.classList.add('popup-open');
-    return () => document.body.classList.remove('popup-open');
+    document.documentElement.classList.add('popup-open');
+    return () => {
+      document.body.classList.remove('popup-open');
+      document.documentElement.classList.remove('popup-open');
+      document.body.style.top = '';
+      window.scrollTo(0, scrollY);
+    };
   }, []);
 
   const inputStyle: React.CSSProperties = {
