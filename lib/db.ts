@@ -2,9 +2,13 @@ import { getRequestContext } from '@cloudflare/next-on-pages';
 
 export function getDB() {
   try {
-    const { env } = getRequestContext();
-    return (env as any).DB || null;
-  } catch {
+    const ctx = getRequestContext();
+    const env = ctx.env as any;
+    if (env?.DB) return env.DB;
+    // D1 바인딩이 없는 경우 - 로컬 dev 또는 바인딩 미설정
+    return null;
+  } catch (e) {
+    // getRequestContext 실패 - Cloudflare 환경 외
     return null;
   }
 }

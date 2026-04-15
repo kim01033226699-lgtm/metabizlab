@@ -850,16 +850,36 @@ function ConsultPopup({ onClose }: { onClose: () => void }) {
         <div style={{ overflowY: 'auto', flex: 1 }}>
           <form
             style={{ padding: '0 clamp(16px, 4vw, 28px) clamp(16px, 4vw, 28px)' }}
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              alert('문의하기이 접수되었습니다. 감사합니다.');
-              onClose();
+              const form = e.target as HTMLFormElement;
+              const formData = new FormData(form);
+              const name = formData.get('userName') as string;
+              const phone1 = formData.get('phone1') as string;
+              const phone2 = formData.get('phone2') as string;
+              const phone3 = formData.get('phone3') as string;
+              const content = formData.get('detail') as string;
+              const pw = formData.get('postPassword') as string;
+              if (!pw) { alert('글 비밀번호를 입력해주세요.'); return; }
+              try {
+                const res = await fetch('/api/posts', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ name, phone: `${phone1}-${phone2}-${phone3}`, category: consultType, content, password: pw }),
+                });
+                if (res.ok) {
+                  if (confirm('문의가 접수되었습니다.\n문의글을 확인하시겠습니까?')) {
+                    window.location.href = '/board';
+                  }
+                  onClose();
+                } else { alert('접수에 실패했습니다.'); }
+              } catch { alert('오류가 발생했습니다.'); }
             }}
           >
             {/* 이름 */}
             <div style={rowStyle}>
               <label style={labelStyle}>이름</label>
-              <input type="text" required placeholder="이름을 입력해주세요" style={inputStyle}
+              <input type="text" name="userName" required placeholder="이름을 입력해주세요" style={inputStyle}
                 onFocus={(e) => e.target.style.borderColor = '#0f3278'}
                 onBlur={(e) => e.target.style.borderColor = '#ddd'} />
             </div>
@@ -868,17 +888,17 @@ function ConsultPopup({ onClose }: { onClose: () => void }) {
             <div style={rowStyle}>
               <label style={labelStyle}>연락처</label>
               <div style={{ display: 'flex', gap: '4px', flex: 1, alignItems: 'center', minWidth: 0 }}>
-                <input type="text" required placeholder="010" maxLength={3}
+                <input type="text" name="phone1" required placeholder="010" maxLength={3}
                   style={{ ...inputStyle, textAlign: 'center' as const, flex: 1 }}
                   onFocus={(e) => e.target.style.borderColor = '#0f3278'}
                   onBlur={(e) => e.target.style.borderColor = '#ddd'} />
                 <span style={{ color: '#ccc', flexShrink: 0 }}>-</span>
-                <input type="text" required placeholder="0000" maxLength={4}
+                <input type="text" name="phone2" required placeholder="0000" maxLength={4}
                   style={{ ...inputStyle, textAlign: 'center' as const, flex: 1 }}
                   onFocus={(e) => e.target.style.borderColor = '#0f3278'}
                   onBlur={(e) => e.target.style.borderColor = '#ddd'} />
                 <span style={{ color: '#ccc', flexShrink: 0 }}>-</span>
-                <input type="text" required placeholder="0000" maxLength={4}
+                <input type="text" name="phone3" required placeholder="0000" maxLength={4}
                   style={{ ...inputStyle, textAlign: 'center' as const, flex: 1 }}
                   onFocus={(e) => e.target.style.borderColor = '#0f3278'}
                   onBlur={(e) => e.target.style.borderColor = '#ddd'} />
@@ -910,12 +930,23 @@ function ConsultPopup({ onClose }: { onClose: () => void }) {
             <div style={{ ...rowStyle, alignItems: 'flex-start', borderBottom: 'none' }}>
               <label style={{ ...labelStyle, paddingTop: '4px' }}>상세내용</label>
               <textarea
+                name="detail"
+                required
                 placeholder="문의 내용을 입력해 주세요"
                 rows={4}
                 style={{ ...inputStyle, resize: 'vertical' }}
                 onFocus={(e) => e.target.style.borderColor = '#0f3278'}
                 onBlur={(e) => e.target.style.borderColor = '#ddd'}
               />
+            </div>
+
+            {/* 글 비밀번호 */}
+            <div style={rowStyle}>
+              <label style={labelStyle}>글 비밀번호</label>
+              <input type="password" name="postPassword" required placeholder="답변 확인 시 필요"
+                style={{ ...inputStyle, maxWidth: '200px' }}
+                onFocus={(e) => e.target.style.borderColor = '#0f3278'}
+                onBlur={(e) => e.target.style.borderColor = '#ddd'} />
             </div>
 
             {/* 개인정보 동의 */}

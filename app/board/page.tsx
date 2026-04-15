@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Footer from '@/components/Footer';
 
 interface Post {
   id: number;
@@ -120,10 +121,22 @@ export default function BoardPage() {
 
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#f5f7fa' }}>
-      {/* 헤더 */}
+      {/* 상단 네비바 */}
+      <div style={{
+        backgroundColor: '#fff', padding: '16px 24px', display: 'flex', alignItems: 'center',
+        justifyContent: 'space-between', borderBottom: '1px solid #e0e7f0',
+        position: 'sticky', top: 0, zIndex: 100,
+      }}>
+        <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+          <img src="/images/metabizlab-logo.png" alt="META BIZLAB" style={{ height: '32px', width: 'auto' }} />
+        </Link>
+        <Link href="/" style={{ color: '#6b7280', fontSize: '14px', textDecoration: 'none' }}>홈으로</Link>
+      </div>
+
+      {/* 헤더 배너 */}
       <div style={{ backgroundColor: primaryColor, padding: '40px 24px', textAlign: 'center' }}>
-        <Link href="/" style={{ color: '#d4af37', textDecoration: 'none', fontSize: '14px' }}>META BIZLAB</Link>
-        <h1 style={{ color: '#fff', fontSize: '28px', fontWeight: 800, margin: '8px 0 0' }}>문의 게시판</h1>
+        <h1 style={{ color: '#fff', fontSize: '28px', fontWeight: 800, margin: 0 }}>문의게시판</h1>
+        <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '14px', marginTop: '8px' }}>궁금하신 사항을 자유롭게 문의해 주세요</p>
       </div>
 
       <div style={{ maxWidth: '800px', margin: '0 auto', padding: '24px 16px' }}>
@@ -298,11 +311,8 @@ export default function BoardPage() {
           </div>
         )}
 
-        {/* 홈으로 */}
-        <div style={{ textAlign: 'center', marginTop: '24px' }}>
-          <Link href="/" style={{ color: primaryColor, fontSize: '14px', textDecoration: 'none' }}>홈으로 돌아가기</Link>
-        </div>
       </div>
+      <Footer />
     </div>
   );
 }
