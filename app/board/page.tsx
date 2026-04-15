@@ -146,7 +146,10 @@ export default function BoardPage() {
 
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#f5f7fa' }}>
-      <Navbar />
+      <Navbar menuItems={[
+        { label: '홈', href: '/' },
+        { label: '문의하기', href: '/board' },
+      ]} />
 
       {/* 헤더 - Navbar 높이만큼 상단 여백 */}
       <div style={{ backgroundColor: '#fff', padding: '40px 24px', paddingTop: '160px', textAlign: 'center' }}>

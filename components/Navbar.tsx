@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 
-const menuItems = [
+const defaultMenuItems = [
   { label: '회사이념', href: '#about' },
   { label: '사업영역', href: '#business-services' },
   { label: '핵심서비스', href: '#services' },
@@ -12,7 +12,8 @@ const menuItems = [
   { label: '문의게시판', href: '/board' },
 ];
 
-export default function Navbar() {
+export default function Navbar({ menuItems }: { menuItems?: { label: string; href: string }[] } = {}) {
+  const items = menuItems || defaultMenuItems;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -85,7 +86,7 @@ export default function Navbar() {
               gap: '28px',
               alignItems: 'center'
             }}>
-              {menuItems.map((item) => (
+              {items.map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
@@ -173,7 +174,7 @@ export default function Navbar() {
               <line x1="6" y1="18" x2="18" y2="6" />
             </svg>
           </button>
-          {menuItems.map((item) => (
+          {items.map((item) => (
             <a
               key={item.href}
               href={item.href}
