@@ -1,13 +1,11 @@
-export function getDB(env: any) {
-  if (env?.DB) return env.DB;
-  return null;
-}
+import { getRequestContext } from '@cloudflare/next-on-pages';
 
-export function getEnv() {
+export function getDB() {
   try {
-    return (require('@cloudflare/next-on-pages') as any).getRequestContext().env;
+    const { env } = getRequestContext();
+    return (env as any).DB || null;
   } catch {
-    return {};
+    return null;
   }
 }
 

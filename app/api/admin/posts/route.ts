@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getDB, getEnv } from '@/lib/db';
+import { getDB } from '@/lib/db';
 
 export const runtime = 'edge';
 
@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: '관리자 인증 실패' }, { status: 403 });
     }
 
-    const db = getDB(getEnv());
+    const db = getDB();
     if (!db) return NextResponse.json({ posts: [] });
 
     const { results } = await db.prepare(

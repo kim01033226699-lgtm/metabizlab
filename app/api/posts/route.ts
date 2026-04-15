@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getDB, getEnv, hashPassword, maskName } from '@/lib/db';
+import { getDB, hashPassword, maskName } from '@/lib/db';
 
 export const runtime = 'edge';
 
 // GET: 게시글 목록 (공개 정보만)
 export async function GET() {
   try {
-    const db = getDB(getEnv());
+    const db = getDB();
     if (!db) return NextResponse.json({ posts: [] });
 
     const { results } = await db.prepare(
@@ -30,7 +30,7 @@ export async function GET() {
 // POST: 게시글 작성
 export async function POST(request: NextRequest) {
   try {
-    const db = getDB(getEnv());
+    const db = getDB();
     if (!db) return NextResponse.json({ error: 'DB not available' }, { status: 500 });
 
     const { name, phone, category, content, password } = await request.json();

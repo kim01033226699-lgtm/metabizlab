@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getDB, getEnv } from '@/lib/db';
+import { getDB } from '@/lib/db';
 
 export const runtime = 'edge';
 
@@ -9,7 +9,7 @@ const ADMIN_PASSWORD = 'metabiz2026!';
 export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    const db = getDB(getEnv());
+    const db = getDB();
     if (!db) return NextResponse.json({ error: 'DB not available' }, { status: 500 });
 
     const { content, adminPassword } = await request.json();
