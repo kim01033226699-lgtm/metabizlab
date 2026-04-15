@@ -67,7 +67,7 @@ export default function Navbar() {
             alignItems: 'center',
           }}>
             {/* Logo */}
-            <a href="#about" style={{
+            <a href="/" style={{
               display: 'flex',
               alignItems: 'center',
               textDecoration: 'none'

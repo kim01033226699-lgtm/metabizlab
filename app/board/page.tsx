@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 interface Post {
@@ -121,22 +122,12 @@ export default function BoardPage() {
 
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#f5f7fa' }}>
-      {/* 상단 네비바 */}
-      <div style={{
-        backgroundColor: '#fff', padding: '16px 24px', display: 'flex', alignItems: 'center',
-        justifyContent: 'space-between', borderBottom: '1px solid #e0e7f0',
-        position: 'sticky', top: 0, zIndex: 100,
-      }}>
-        <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-          <img src="/images/metabizlab-logo.png" alt="META BIZLAB" style={{ height: '32px', width: 'auto' }} />
-        </Link>
-        <Link href="/" style={{ color: '#6b7280', fontSize: '14px', textDecoration: 'none' }}>홈으로</Link>
-      </div>
+      <Navbar />
 
-      {/* 헤더 배너 */}
-      <div style={{ backgroundColor: primaryColor, padding: '40px 24px', textAlign: 'center' }}>
-        <h1 style={{ color: '#fff', fontSize: '28px', fontWeight: 800, margin: 0 }}>문의게시판</h1>
-        <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '14px', marginTop: '8px' }}>궁금하신 사항을 자유롭게 문의해 주세요</p>
+      {/* 헤더 - Navbar 높이만큼 상단 여백 */}
+      <div style={{ backgroundColor: '#fff', padding: '40px 24px', paddingTop: '160px', textAlign: 'center' }}>
+        <h1 style={{ color: '#111', fontSize: '28px', fontWeight: 800, margin: 0 }}>문의게시판</h1>
+        <div style={{ width: '40px', height: '3px', backgroundColor: primaryColor, margin: '12px auto 0', borderRadius: '2px' }} />
       </div>
 
       <div style={{ maxWidth: '800px', margin: '0 auto', padding: '24px 16px' }}>

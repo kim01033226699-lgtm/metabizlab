@@ -3,6 +3,28 @@ import { getDB, verifyPassword } from '@/lib/db';
 
 export const runtime = 'edge';
 
+const ADMIN_PASSWORD = 'metabiz2026!';
+
+// DELETE: 관리자 글 삭제
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  try {
+    const { id } = await params;
+    const { adminPassword } = await request.json();
+    if (adminPassword !== ADMIN_PASSWORD) {
+      return NextResponse.json({ error: '관리자 인증 실패' }, { status: 403 });
+    }
+    const db = getDB();
+    if (!db) return NextResponse.json({ error: 'DB not available' }, { status: 500 });
+
+    await db.prepare('DELETE FROM replies WHERE post_id = ?').bind(id).run();
+    await db.prepare('DELETE FROM posts WHERE id = ?').bind(id).run();
+
+    return NextResponse.json({ success: true });
+  } catch (e: any) {
+    return NextResponse.json({ error: e.message }, { status: 500 });
+  }
+}
+
 // POST: 비밀번호 확인 → 글 상세 + 답변 조회
 export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {

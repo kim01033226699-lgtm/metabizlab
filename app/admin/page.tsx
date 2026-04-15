@@ -64,6 +64,22 @@ export default function AdminPage() {
     } catch {}
   };
 
+  const handleDelete = async (postId: number) => {
+    if (!confirm('이 문의글을 삭제하시겠습니까? 답변도 함께 삭제됩니다.')) return;
+    try {
+      const res = await fetch(`/api/posts/${postId}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ adminPassword: adminPw }),
+      });
+      if (res.ok) {
+        setPosts(posts.filter(p => p.id !== postId));
+        if (selectedPost?.id === postId) setSelectedPost(null);
+        alert('삭제되었습니다');
+      }
+    } catch {}
+  };
+
   if (!isAuthed) {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f5f7fa' }}>
@@ -116,7 +132,13 @@ export default function AdminPage() {
         {/* 상세 + 답변 */}
         {selectedPost && (
           <div style={{ backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #e0e7f0', padding: '20px' }}>
-            <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#111', marginBottom: '12px' }}>[{selectedPost.category}] {selectedPost.name}</h3>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+              <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#111', margin: 0 }}>[{selectedPost.category}] {selectedPost.name}</h3>
+              <button onClick={() => handleDelete(selectedPost.id)} style={{
+                padding: '6px 14px', backgroundColor: '#fff', color: '#ef4444',
+                border: '1px solid #fca5a5', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer',
+              }}>삭제</button>
+            </div>
             <div style={{ fontSize: '13px', color: '#6b7280', marginBottom: '12px' }}>
               {selectedPost.phone} | {selectedPost.createdAt?.slice(0, 10)}
             </div>

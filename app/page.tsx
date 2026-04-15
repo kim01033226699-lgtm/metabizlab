@@ -119,7 +119,7 @@ export default function Home() {
               lineHeight: '1.6',
               textShadow: '0 1px 8px rgba(0,0,0,0.4)'
             }}>
-              Add strategy to your business
+              &ldquo;Add strategy to your business&rdquo;
             </p>
           </div>
         </div>
