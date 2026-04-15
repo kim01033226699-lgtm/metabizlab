@@ -1,4 +1,4 @@
-# 메가인포자산관리 (Mega Info Asset Management)
+# META BIZLAB
 
 전문적이고 도전적이며 합리적인 자산관리 솔루션을 제공하는 기업 웹사이트
 
