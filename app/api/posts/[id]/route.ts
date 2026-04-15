@@ -5,16 +5,29 @@ export const runtime = 'edge';
 
 const ADMIN_PASSWORD = 'metabiz2026!';
 
-// DELETE: 관리자 글 삭제
+// DELETE: 관리자 또는 작성자 글 삭제
 export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    const { adminPassword } = await request.json();
-    if (adminPassword !== ADMIN_PASSWORD) {
-      return NextResponse.json({ error: '관리자 인증 실패' }, { status: 403 });
-    }
+    const { adminPassword, password } = await request.json();
+
     const db = getDB();
     if (!db) return NextResponse.json({ error: 'DB not available' }, { status: 500 });
+
+    // 관리자 비밀번호 또는 글 비밀번호로 인증
+    let authorized = false;
+    if (adminPassword === ADMIN_PASSWORD) {
+      authorized = true;
+    } else if (password) {
+      const post = await db.prepare('SELECT password FROM posts WHERE id = ?').bind(id).first();
+      if (post && await verifyPassword(password, post.password as string)) {
+        authorized = true;
+      }
+    }
+
+    if (!authorized) {
+      return NextResponse.json({ error: '인증 실패' }, { status: 403 });
+    }
 
     await db.prepare('DELETE FROM replies WHERE post_id = ?').bind(id).run();
     await db.prepare('DELETE FROM posts WHERE id = ?').bind(id).run();

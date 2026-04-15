@@ -39,6 +39,7 @@ export default function BoardPage() {
   const [replies, setReplies] = useState<Reply[]>([]);
   const [error, setError] = useState('');
   const [showWriteForm, setShowWriteForm] = useState(false);
+  const [verifiedPassword, setVerifiedPassword] = useState('');
 
   // 폼 상태
   const [formName, setFormName] = useState('');
@@ -78,6 +79,7 @@ export default function BoardPage() {
         const data = await res.json();
         setPostDetail(data.post);
         setReplies(data.replies || []);
+        setVerifiedPassword(password);
         setPassword('');
       } else {
         const data = await res.json();
@@ -86,6 +88,28 @@ export default function BoardPage() {
     } catch {
       setError('오류가 발생했습니다');
     }
+  };
+
+  const handleDeletePost = async () => {
+    if (!postDetail || !verifiedPassword) return;
+    if (!confirm('정말 삭제하시겠습니까?')) return;
+    try {
+      const res = await fetch(`/api/posts/${postDetail.id}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: verifiedPassword }),
+      });
+      if (res.ok) {
+        alert('삭제되었습니다.');
+        setPostDetail(null);
+        setReplies([]);
+        setVerifiedPassword('');
+        loadPosts();
+      } else {
+        const data = await res.json();
+        alert(data.error || '삭제에 실패했습니다.');
+      }
+    } catch { alert('오류가 발생했습니다.'); }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -137,7 +161,10 @@ export default function BoardPage() {
           <div style={{ backgroundColor: '#fff', borderRadius: '12px', padding: '24px', marginBottom: '24px', border: '1px solid #e0e7f0' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
               <h2 style={{ fontSize: '18px', fontWeight: 700, color: '#111' }}>{postDetail.category} 문의</h2>
-              <button onClick={() => { setPostDetail(null); setReplies([]); }} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '20px', color: '#9ca3af' }}>X</button>
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <button onClick={handleDeletePost} style={{ padding: '6px 14px', backgroundColor: '#ef4444', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}>삭제</button>
+                <button onClick={() => { setPostDetail(null); setReplies([]); setVerifiedPassword(''); }} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '20px', color: '#9ca3af' }}>X</button>
+              </div>
             </div>
             <div style={{ fontSize: '13px', color: '#6b7280', marginBottom: '12px' }}>
               {postDetail.name} | {postDetail.createdAt?.slice(0, 10)}

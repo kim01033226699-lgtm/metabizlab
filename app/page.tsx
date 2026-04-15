@@ -1355,18 +1355,42 @@ function RecruitPopup({ onClose }: { onClose: () => void }) {
         <div style={{ overflowY: 'auto', flex: 1 }}>
           <form
             style={{ padding: '0 clamp(16px, 4vw, 28px) clamp(16px, 4vw, 28px)' }}
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
               if (!agreed) { alert('개인정보 수집 및 이용에 동의해 주세요.'); return; }
-              alert('채용문의가 접수되었습니다. 감사합니다.');
-              onClose();
+              const form = e.target as HTMLFormElement;
+              const formData = new FormData(form);
+              const name = formData.get('applicantName') as string;
+              const birth = formData.get('birthDate') as string;
+              const phone1 = formData.get('phone1') as string;
+              const phone2 = formData.get('phone2') as string;
+              const phone3 = formData.get('phone3') as string;
+              const region = formData.get('region') as string;
+              const career = formData.get('career') as string;
+              const inquiry = formData.get('inquiry') as string;
+              const pw = formData.get('postPassword') as string;
+              if (!pw) { alert('글 비밀번호를 입력해주세요.'); return; }
+              const content = `[생년월일] ${birth}\n[희망근무지] ${region || '미입력'}\n[경력여부] ${career}\n${inquiry ? `[문의내용]\n${inquiry}` : ''}`.trim();
+              try {
+                const res = await fetch('/api/posts', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ name, phone: `${phone1}-${phone2}-${phone3}`, category: '채용문의', content, password: pw }),
+                });
+                if (res.ok) {
+                  if (confirm('채용문의가 접수되었습니다.\n문의글을 확인하시겠습니까?')) {
+                    window.location.href = '/board';
+                  }
+                  onClose();
+                } else { alert('접수에 실패했습니다.'); }
+              } catch { alert('오류가 발생했습니다.'); }
             }}
           >
             {/* 지원자명 */}
             <div style={rowStyle}>
               <label style={labelStyle}>지원자명</label>
               <input
-                type="text" required placeholder="지원자명을 입력해주세요"
+                type="text" name="applicantName" required placeholder="지원자명을 입력해주세요"
                 style={inputStyle}
                 onFocus={(e) => e.target.style.borderColor = '#0f3278'}
                 onBlur={(e) => e.target.style.borderColor = '#ddd'}
@@ -1377,7 +1401,7 @@ function RecruitPopup({ onClose }: { onClose: () => void }) {
             <div style={rowStyle}>
               <label style={labelStyle}>생년월일</label>
               <input
-                type="text" required placeholder="생년월일을 입력해주세요"
+                type="text" name="birthDate" required placeholder="생년월일을 입력해주세요"
                 style={inputStyle}
                 onFocus={(e) => e.target.style.borderColor = '#0f3278'}
                 onBlur={(e) => e.target.style.borderColor = '#ddd'}
@@ -1389,21 +1413,21 @@ function RecruitPopup({ onClose }: { onClose: () => void }) {
               <label style={labelStyle}>전화번호</label>
               <div style={{ display: 'flex', gap: '8px', flex: 1, alignItems: 'center' }}>
                 <input
-                  type="text" required placeholder="010" maxLength={3}
+                  type="text" name="phone1" required placeholder="010" maxLength={3}
                   style={{ ...inputStyle, textAlign: 'center' as const }}
                   onFocus={(e) => e.target.style.borderColor = '#0f3278'}
                   onBlur={(e) => e.target.style.borderColor = '#ddd'}
                 />
                 <span style={{ color: '#ccc' }}>-</span>
                 <input
-                  type="text" required placeholder="0000" maxLength={4}
+                  type="text" name="phone2" required placeholder="0000" maxLength={4}
                   style={{ ...inputStyle, textAlign: 'center' as const }}
                   onFocus={(e) => e.target.style.borderColor = '#0f3278'}
                   onBlur={(e) => e.target.style.borderColor = '#ddd'}
                 />
                 <span style={{ color: '#ccc' }}>-</span>
                 <input
-                  type="text" required placeholder="0000" maxLength={4}
+                  type="text" name="phone3" required placeholder="0000" maxLength={4}
                   style={{ ...inputStyle, textAlign: 'center' as const }}
                   onFocus={(e) => e.target.style.borderColor = '#0f3278'}
                   onBlur={(e) => e.target.style.borderColor = '#ddd'}
@@ -1415,7 +1439,7 @@ function RecruitPopup({ onClose }: { onClose: () => void }) {
             <div style={rowStyle}>
               <label style={labelStyle}>지역</label>
               <input
-                type="text" placeholder="희망근무지를 입력해주세요"
+                type="text" name="region" placeholder="희망근무지를 입력해주세요"
                 style={inputStyle}
                 onFocus={(e) => e.target.style.borderColor = '#0f3278'}
                 onBlur={(e) => e.target.style.borderColor = '#ddd'}
@@ -1439,9 +1463,21 @@ function RecruitPopup({ onClose }: { onClose: () => void }) {
             <div style={{ ...rowStyle, alignItems: 'flex-start' }}>
               <label style={{ ...labelStyle, paddingTop: '4px' }}>문의내용</label>
               <textarea
+                name="inquiry"
                 placeholder="문의 내용을 입력해 주세요"
                 rows={3}
                 style={{ ...inputStyle, resize: 'vertical' }}
+                onFocus={(e) => e.target.style.borderColor = '#0f3278'}
+                onBlur={(e) => e.target.style.borderColor = '#ddd'}
+              />
+            </div>
+
+            {/* 글 비밀번호 */}
+            <div style={rowStyle}>
+              <label style={labelStyle}>글 비밀번호</label>
+              <input
+                type="password" name="postPassword" required placeholder="게시판 조회 시 필요합니다"
+                style={inputStyle}
                 onFocus={(e) => e.target.style.borderColor = '#0f3278'}
                 onBlur={(e) => e.target.style.borderColor = '#ddd'}
               />
