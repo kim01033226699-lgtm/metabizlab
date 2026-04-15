@@ -119,7 +119,7 @@ export default function Home() {
               lineHeight: '1.6',
               textShadow: '0 1px 8px rgba(0,0,0,0.4)'
             }}>
-              창업, 플랫폼, 마케팅 토탈 서비스
+              Add strategy to your business
             </p>
           </div>
         </div>
