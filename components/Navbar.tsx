@@ -9,6 +9,7 @@ const menuItems = [
   { label: '협력사', href: '#partners' },
   { label: '채용문의', href: '#careers' },
   { label: '오시는길', href: '#location' },
+  { label: '게시판', href: '/board' },
 ];
 
 export default function Navbar() {
