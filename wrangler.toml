@@ -6,4 +6,4 @@ pages_build_output_dir = ".vercel/output/static"
 [[d1_databases]]
 binding = "DB"
 database_name = "metabizlab-board"
-database_id = "placeholder"
+database_id = "cc39af54-0ed6-48a8-ac4b-347972061ed0"
