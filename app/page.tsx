@@ -1697,15 +1697,55 @@ function LocationCard({ title, subtitle, address, mapHtml }: {
           body { width: 100%; height: 100vh; overflow: hidden; }
           .root_daum_roughmap { width: 100% !important; height: 100% !important; }
           .root_daum_roughmap .wrap_map { width: 100% !important; height: 100% !important; }
+          .scroll-overlay {
+            display: none;
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.3);
+            z-index: 9999;
+            justify-content: center; align-items: center;
+            pointer-events: none;
+          }
+          .scroll-overlay span {
+            background: rgba(0,0,0,0.7); color: #fff;
+            padding: 10px 20px; border-radius: 8px;
+            font-size: 13px; font-family: sans-serif;
+          }
         </style>
       </head>
       <body>
+        <div class="scroll-overlay" id="scrollMsg"><span>Ctrl + 스크롤로 지도를 확대/축소하세요</span></div>
         ${mapHtml}
+        <script>
+          (function(){
+            var overlay = document.getElementById('scrollMsg');
+            var hideTimer;
+            document.addEventListener('wheel', function(e) {
+              if (!e.ctrlKey) {
+                e.preventDefault();
+                e.stopPropagation();
+                overlay.style.display = 'flex';
+                clearTimeout(hideTimer);
+                hideTimer = setTimeout(function(){ overlay.style.display = 'none'; }, 1500);
+                window.parent.postMessage({ type: 'mapScroll', deltaY: e.deltaY }, '*');
+              }
+            }, { passive: false, capture: true });
+          })();
+        </script>
       </body>
       </html>
     `);
     doc.close();
   }, [mapHtml]);
+
+  useEffect(() => {
+    const handleMessage = (e: MessageEvent) => {
+      if (e.data?.type === 'mapScroll') {
+        window.scrollBy({ top: e.data.deltaY, behavior: 'auto' });
+      }
+    };
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, []);
 
   return (
     <div>
