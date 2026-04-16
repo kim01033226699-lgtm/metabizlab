@@ -49,8 +49,11 @@ export async function changeAdminPassword(newPassword: string): Promise<boolean>
   if (!db) return false;
   const hashed = await hashPassword(newPassword);
   await db.prepare(
-    "INSERT INTO admin_settings (key, value) VALUES ('admin_password', ?) ON CONFLICT(key) DO UPDATE SET value = ?"
-  ).bind(hashed, hashed).run();
+    "CREATE TABLE IF NOT EXISTS admin_settings (key TEXT PRIMARY KEY, value TEXT NOT NULL)"
+  ).run();
+  await db.prepare(
+    "INSERT INTO admin_settings (key, value) VALUES ('admin_password', ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value"
+  ).bind(hashed).run();
   return true;
 }
 

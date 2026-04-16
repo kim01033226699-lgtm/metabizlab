@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyAdminPassword, changeAdminPassword } from '@/lib/db';
+import { getDB, verifyAdminPassword, hashPassword } from '@/lib/db';
 
 export const runtime = 'edge';
 
@@ -20,13 +20,24 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: '현재 비밀번호가 올바르지 않습니다' }, { status: 403 });
     }
 
-    const success = await changeAdminPassword(newPassword);
-    if (!success) {
-      return NextResponse.json({ error: 'DB를 사용할 수 없습니다' }, { status: 500 });
+    const db = getDB();
+    if (!db) {
+      return NextResponse.json({ error: 'DB 연결 실패 - Cloudflare D1 바인딩을 확인해주세요' }, { status: 500 });
     }
+
+    const hashed = await hashPassword(newPassword);
+
+    // 테이블 없으면 생성
+    await db.prepare(
+      "CREATE TABLE IF NOT EXISTS admin_settings (key TEXT PRIMARY KEY, value TEXT NOT NULL)"
+    ).run();
+
+    await db.prepare(
+      "INSERT INTO admin_settings (key, value) VALUES ('admin_password', ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value"
+    ).bind(hashed).run();
 
     return NextResponse.json({ success: true });
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    return NextResponse.json({ error: e.message || '알 수 없는 오류' }, { status: 500 });
   }
 }
