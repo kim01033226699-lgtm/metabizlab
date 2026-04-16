@@ -42,14 +42,11 @@ export default function BoardPage() {
   const [verifiedPassword, setVerifiedPassword] = useState('');
 
   // 폼 상태
+  const [formTitle, setFormTitle] = useState('');
   const [formName, setFormName] = useState('');
-  const [formPhone1] = useState('010');
-  const [formPhone2, setFormPhone2] = useState('');
-  const [formPhone3, setFormPhone3] = useState('');
   const [formCategory, setFormCategory] = useState('창업');
   const [formContent, setFormContent] = useState('');
   const [formPassword, setFormPassword] = useState('');
-  const [formAgreed, setFormAgreed] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
@@ -114,7 +111,7 @@ export default function BoardPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formName || !formContent || !formPassword) return;
+    if (!formTitle || !formName || !formContent || !formPassword) return;
     setSubmitting(true);
     try {
       const res = await fetch('/api/posts', {
@@ -122,24 +119,24 @@ export default function BoardPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: formName,
-          phone: `${formPhone1}-${formPhone2}-${formPhone3}`,
+          phone: '',
           category: formCategory,
-          content: formContent,
+          content: `[${formTitle}]\n${formContent}`,
           password: formPassword,
         }),
       });
       if (res.ok) {
         alert('문의가 접수되었습니다.');
         setShowWriteForm(false);
-        setFormName(''); setFormPhone2(''); setFormPhone3('');
-        setFormContent(''); setFormPassword(''); setFormAgreed(false);
+        setFormTitle(''); setFormName('');
+        setFormContent(''); setFormPassword('');
         loadPosts();
       }
     } catch {} finally { setSubmitting(false); }
   };
 
   const categoryMap: Record<string, string> = {
-    '창업': '#3b82f6', '절세': '#10b981', '법인컨설팅': '#8b5cf6', '기타': '#6b7280',
+    '창업': '#3b82f6', '절세': '#10b981', '법인컨설팅': '#8b5cf6', '기타상담': '#6b7280', '채용문의': '#f59e0b',
   };
 
   const primaryColor = '#0f3278';
@@ -209,28 +206,15 @@ export default function BoardPage() {
             <h2 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '20px', color: '#111' }}>문의하기</h2>
 
             <div style={{ marginBottom: '14px' }}>
-              <label style={{ fontSize: '13px', fontWeight: 600, color: '#374151', display: 'block', marginBottom: '4px' }}>이름 *</label>
-              <input value={formName} onChange={e => setFormName(e.target.value)} required placeholder="이름을 입력해주세요"
+              <label style={{ fontSize: '13px', fontWeight: 600, color: '#374151', display: 'block', marginBottom: '4px' }}>제목 *</label>
+              <input value={formTitle} onChange={e => setFormTitle(e.target.value)} required placeholder="제목을 입력해주세요"
                 style={{ width: '100%', padding: '10px 12px', border: '1px solid #d1d5db', borderRadius: '8px', fontSize: '14px', boxSizing: 'border-box' }} />
             </div>
 
             <div style={{ marginBottom: '14px' }}>
-              <label style={{ fontSize: '13px', fontWeight: 600, color: '#374151', display: 'block', marginBottom: '4px' }}>연락처</label>
-              <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                <input value={formPhone1} disabled style={{ width: '60px', padding: '10px', border: '1px solid #d1d5db', borderRadius: '8px', fontSize: '14px', textAlign: 'center', backgroundColor: '#f3f4f6' }} />
-                <span>-</span>
-                <input value={formPhone2} onChange={e => setFormPhone2(e.target.value)} maxLength={4} placeholder="0000"
-                  style={{ width: '80px', padding: '10px', border: '1px solid #d1d5db', borderRadius: '8px', fontSize: '14px', textAlign: 'center' }} />
-                <span>-</span>
-                <input value={formPhone3} onChange={e => setFormPhone3(e.target.value)} maxLength={4} placeholder="0000"
-                  style={{ width: '80px', padding: '10px', border: '1px solid #d1d5db', borderRadius: '8px', fontSize: '14px', textAlign: 'center' }} />
-              </div>
-            </div>
-
-            <div style={{ marginBottom: '14px' }}>
-              <label style={{ fontSize: '13px', fontWeight: 600, color: '#374151', display: 'block', marginBottom: '4px' }}>문의유형</label>
+              <label style={{ fontSize: '13px', fontWeight: 600, color: '#374151', display: 'block', marginBottom: '4px' }}>유형 선택</label>
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                {['창업', '절세', '법인컨설팅', '기타'].map(cat => (
+                {['창업', '절세', '법인컨설팅', '기타상담', '채용문의'].map(cat => (
                   <label key={cat} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '14px', cursor: 'pointer' }}>
                     <input type="radio" name="category" value={cat} checked={formCategory === cat} onChange={() => setFormCategory(cat)} />
                     {cat}
@@ -240,28 +224,27 @@ export default function BoardPage() {
             </div>
 
             <div style={{ marginBottom: '14px' }}>
+              <label style={{ fontSize: '13px', fontWeight: 600, color: '#374151', display: 'block', marginBottom: '4px' }}>이름 *</label>
+              <input value={formName} onChange={e => setFormName(e.target.value)} required placeholder="이름을 입력해주세요"
+                style={{ width: '100%', padding: '10px 12px', border: '1px solid #d1d5db', borderRadius: '8px', fontSize: '14px', boxSizing: 'border-box' }} />
+            </div>
+
+            <div style={{ marginBottom: '14px' }}>
               <label style={{ fontSize: '13px', fontWeight: 600, color: '#374151', display: 'block', marginBottom: '4px' }}>문의내용 *</label>
               <textarea value={formContent} onChange={e => setFormContent(e.target.value)} required rows={4} placeholder="문의 내용을 입력해 주세요"
                 style={{ width: '100%', padding: '10px 12px', border: '1px solid #d1d5db', borderRadius: '8px', fontSize: '14px', resize: 'vertical', boxSizing: 'border-box' }} />
             </div>
 
-            <div style={{ marginBottom: '14px' }}>
-              <label style={{ fontSize: '13px', fontWeight: 600, color: '#374151', display: 'block', marginBottom: '4px' }}>글 비밀번호 * (답변 확인 시 필요)</label>
+            <div style={{ marginBottom: '20px' }}>
+              <label style={{ fontSize: '13px', fontWeight: 600, color: '#374151', display: 'block', marginBottom: '4px' }}>비밀번호 설정 * (답변 확인 시 필요)</label>
               <input type="password" value={formPassword} onChange={e => setFormPassword(e.target.value)} required placeholder="비밀번호 설정"
                 style={{ width: '200px', padding: '10px 12px', border: '1px solid #d1d5db', borderRadius: '8px', fontSize: '14px' }} />
             </div>
 
-            <div style={{ marginBottom: '20px' }}>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', cursor: 'pointer' }}>
-                <input type="checkbox" checked={formAgreed} onChange={e => setFormAgreed(e.target.checked)} />
-                개인정보 수집 및 이용에 동의합니다
-              </label>
-            </div>
-
             <div style={{ display: 'flex', gap: '8px' }}>
-              <button type="submit" disabled={!formAgreed || submitting} style={{
-                padding: '12px 24px', backgroundColor: formAgreed ? primaryColor : '#d1d5db', color: '#fff',
-                border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: 600, cursor: formAgreed ? 'pointer' : 'not-allowed',
+              <button type="submit" disabled={submitting} style={{
+                padding: '12px 24px', backgroundColor: primaryColor, color: '#fff',
+                border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: 600, cursor: 'pointer',
               }}>
                 {submitting ? '접수중...' : '문의 접수'}
               </button>

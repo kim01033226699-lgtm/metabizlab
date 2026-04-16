@@ -264,7 +264,7 @@ export default function Home() {
                 금융을 선도하는 메타비즈랩인을 찾습니다.
               </p>
               <button
-                onClick={() => setShowRecruit(true)}
+                onClick={() => window.location.href = '/board'}
                 style={{
                   backgroundColor: '#d4af37',
                   color: '#0f3278',
@@ -344,20 +344,17 @@ export default function Home() {
 
       <Footer />
 
-      {/* 채용문의 팝업 */}
-      {showRecruit && <RecruitPopup onClose={() => setShowRecruit(false)} />}
+      {/* 채용문의/문의하기 → 게시판으로 이동 */}
 
       {/* 고민 상세 팝업 */}
       {showConcernDetail !== null && (
         <ConcernDetailPopup
           type={showConcernDetail}
           onClose={() => setShowConcernDetail(null)}
-          onConsult={() => { setShowConcernDetail(null); setShowConsult(true); }}
+          onConsult={() => { setShowConcernDetail(null); window.location.href = '/board'; }}
         />
       )}
 
-      {/* 문의하기 팝업 */}
-      {showConsult && <ConsultPopup onClose={() => setShowConsult(false)} />}
     </div>
   );
 }
