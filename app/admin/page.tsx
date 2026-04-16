@@ -18,6 +18,9 @@ export default function AdminPage() {
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const [replyContent, setReplyContent] = useState('');
   const [error, setError] = useState('');
+  const [showPwChange, setShowPwChange] = useState(false);
+  const [newPw, setNewPw] = useState('');
+  const [newPwConfirm, setNewPwConfirm] = useState('');
 
   const handleLogin = async () => {
     setError('');
@@ -80,6 +83,27 @@ export default function AdminPage() {
     } catch {}
   };
 
+  const handleChangePw = async () => {
+    if (!newPw || !newPwConfirm) { alert('새 비밀번호를 입력해주세요.'); return; }
+    if (newPw !== newPwConfirm) { alert('새 비밀번호가 일치하지 않습니다.'); return; }
+    if (newPw.length < 4) { alert('비밀번호는 4자 이상이어야 합니다.'); return; }
+    try {
+      const res = await fetch('/api/admin/password', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ currentPassword: adminPw, newPassword: newPw }),
+      });
+      if (res.ok) {
+        setAdminPw(newPw);
+        setNewPw(''); setNewPwConfirm(''); setShowPwChange(false);
+        alert('비밀번호가 변경되었습니다.');
+      } else {
+        const data = await res.json();
+        alert(data.error || '변경에 실패했습니다.');
+      }
+    } catch { alert('오류가 발생했습니다.'); }
+  };
+
   if (!isAuthed) {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f5f7fa' }}>
@@ -103,8 +127,43 @@ export default function AdminPage() {
     <div style={{ minHeight: '100vh', backgroundColor: '#f5f7fa' }}>
       <div style={{ backgroundColor: primaryColor, padding: '20px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h1 style={{ color: '#fff', fontSize: '20px', fontWeight: 700, margin: 0 }}>관리자 - 문의 관리</h1>
-        <Link href="/" style={{ color: '#d4af37', fontSize: '13px', textDecoration: 'none' }}>홈으로</Link>
+        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+          <button onClick={() => setShowPwChange(!showPwChange)} style={{
+            padding: '6px 14px', backgroundColor: 'rgba(255,255,255,0.15)', color: '#fff',
+            border: '1px solid rgba(255,255,255,0.3)', borderRadius: '6px', fontSize: '12px', cursor: 'pointer',
+          }}>비밀번호 변경</button>
+          <Link href="/" style={{ color: '#d4af37', fontSize: '13px', textDecoration: 'none' }}>홈으로</Link>
+        </div>
       </div>
+
+      {showPwChange && (
+        <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '16px 16px 0' }}>
+          <div style={{ backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #e0e7f0', padding: '20px' }}>
+            <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#111', marginBottom: '16px' }}>관리자 비밀번호 변경</h3>
+            <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-end', flexWrap: 'wrap' }}>
+              <div>
+                <label style={{ fontSize: '12px', color: '#6b7280', display: 'block', marginBottom: '4px' }}>새 비밀번호</label>
+                <input type="password" value={newPw} onChange={e => setNewPw(e.target.value)} placeholder="새 비밀번호"
+                  style={{ padding: '8px 12px', border: '1px solid #d1d5db', borderRadius: '6px', fontSize: '13px', width: '180px' }} />
+              </div>
+              <div>
+                <label style={{ fontSize: '12px', color: '#6b7280', display: 'block', marginBottom: '4px' }}>새 비밀번호 확인</label>
+                <input type="password" value={newPwConfirm} onChange={e => setNewPwConfirm(e.target.value)} placeholder="비밀번호 확인"
+                  onKeyDown={e => e.key === 'Enter' && handleChangePw()}
+                  style={{ padding: '8px 12px', border: '1px solid #d1d5db', borderRadius: '6px', fontSize: '13px', width: '180px' }} />
+              </div>
+              <button onClick={handleChangePw} style={{
+                padding: '8px 20px', backgroundColor: primaryColor, color: '#fff',
+                border: 'none', borderRadius: '6px', fontSize: '13px', fontWeight: 600, cursor: 'pointer',
+              }}>변경</button>
+              <button onClick={() => { setShowPwChange(false); setNewPw(''); setNewPwConfirm(''); }} style={{
+                padding: '8px 16px', backgroundColor: '#f3f4f6', color: '#374151',
+                border: '1px solid #d1d5db', borderRadius: '6px', fontSize: '13px', cursor: 'pointer',
+              }}>취소</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '24px 16px', display: 'grid', gridTemplateColumns: selectedPost ? '1fr 1fr' : '1fr', gap: '20px' }}>
         {/* 목록 */}

@@ -1,15 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getDB } from '@/lib/db';
+import { getDB, verifyAdminPassword } from '@/lib/db';
 
 export const runtime = 'edge';
-
-const ADMIN_PASSWORD = 'metabiz2026!';
 
 // POST: 관리자용 전체 글 조회 (비밀번호 인증)
 export async function POST(request: NextRequest) {
   try {
     const { adminPassword } = await request.json();
-    if (adminPassword !== ADMIN_PASSWORD) {
+    if (!(await verifyAdminPassword(adminPassword))) {
       return NextResponse.json({ error: '관리자 인증 실패' }, { status: 403 });
     }
 

@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getDB, verifyPassword } from '@/lib/db';
+import { getDB, verifyPassword, verifyAdminPassword } from '@/lib/db';
 
 export const runtime = 'edge';
-
-const ADMIN_PASSWORD = 'metabiz2026!';
 
 // DELETE: 관리자 또는 작성자 글 삭제
 export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -16,7 +14,7 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
 
     // 관리자 비밀번호 또는 글 비밀번호로 인증
     let authorized = false;
-    if (adminPassword === ADMIN_PASSWORD) {
+    if (adminPassword && await verifyAdminPassword(adminPassword)) {
       authorized = true;
     } else if (password) {
       const post = await db.prepare('SELECT password FROM posts WHERE id = ?').bind(id).first();
