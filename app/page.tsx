@@ -114,7 +114,7 @@ export default function Home() {
               당신의 비즈니스에<br />전략을 더하다
             </h1>
             <p style={{
-              fontSize: 'clamp(14px, 1.5vw, 17px)',
+              fontSize: 'clamp(28px, 3vw, 34px)',
               opacity: 0.8,
               lineHeight: '1.6',
               textShadow: '0 1px 8px rgba(0,0,0,0.4)'
@@ -133,7 +133,7 @@ export default function Home() {
         style={{
           position: 'relative',
           zIndex: 10,
-          marginTop: '-30px',
+          marginTop: '-15px',
           transform: servicesReveal.visible ? 'translateY(0)' : 'translateY(40px)',
           opacity: servicesReveal.visible ? 1 : 0,
           transition: 'transform 0.8s ease-out, opacity 0.8s ease-out',

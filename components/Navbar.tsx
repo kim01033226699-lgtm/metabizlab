@@ -37,13 +37,13 @@ export default function Navbar({ menuItems }: { menuItems?: { label: string; hre
       <style>{`
         .nav-desktop { display: flex; }
         .nav-hamburger { display: none; }
-        .nav-inner { height: 128px; }
+        .nav-inner { height: 102px; }
         @media (max-width: 1024px) {
           .nav-desktop { display: none !important; }
           .nav-hamburger { display: block !important; }
         }
         @media (max-width: 640px) {
-          .nav-inner { height: 73px !important; }
+          .nav-inner { height: 58px !important; }
           .nav-logo { height: 36px !important; }
         }
       `}</style>
