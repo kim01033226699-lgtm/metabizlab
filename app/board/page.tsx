@@ -51,6 +51,9 @@ export default function BoardPage() {
 
   useEffect(() => {
     loadPosts();
+    if (typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('write') === 'true') {
+      setShowWriteForm(true);
+    }
   }, []);
 
   const loadPosts = async () => {

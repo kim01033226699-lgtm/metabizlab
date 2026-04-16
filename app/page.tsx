@@ -264,7 +264,7 @@ export default function Home() {
                 금융을 선도하는 메타비즈랩인을 찾습니다.
               </p>
               <button
-                onClick={() => window.location.href = '/board'}
+                onClick={() => window.location.href = '/board?write=true'}
                 style={{
                   backgroundColor: '#d4af37',
                   color: '#0f3278',
@@ -351,7 +351,7 @@ export default function Home() {
         <ConcernDetailPopup
           type={showConcernDetail}
           onClose={() => setShowConcernDetail(null)}
-          onConsult={() => { setShowConcernDetail(null); window.location.href = '/board'; }}
+          onConsult={() => { setShowConcernDetail(null); window.location.href = '/board?write=true'; }}
         />
       )}
 
@@ -866,7 +866,7 @@ function ConsultPopup({ onClose }: { onClose: () => void }) {
                 });
                 if (res.ok) {
                   if (confirm('문의가 접수되었습니다.\n문의글을 확인하시겠습니까?')) {
-                    window.location.href = '/board';
+                    window.location.href = '/board?write=true';
                   }
                   onClose();
                 } else { alert('접수에 실패했습니다.'); }
@@ -1376,7 +1376,7 @@ function RecruitPopup({ onClose }: { onClose: () => void }) {
                 });
                 if (res.ok) {
                   if (confirm('채용문의가 접수되었습니다.\n문의글을 확인하시겠습니까?')) {
-                    window.location.href = '/board';
+                    window.location.href = '/board?write=true';
                   }
                   onClose();
                 } else { alert('접수에 실패했습니다.'); }
