@@ -263,37 +263,39 @@ export default function BoardPage() {
 
         {/* 게시글 목록 */}
         {!postDetail && (
-          <div style={{ backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #e0e7f0', overflow: 'hidden' }}>
-            {/* 테이블 헤더 */}
-            <div style={{ display: 'grid', gridTemplateColumns: '60px 1fr 80px 100px 80px', padding: '12px 16px', backgroundColor: '#f8fafc', borderBottom: '1px solid #e5e7eb', fontSize: '13px', fontWeight: 600, color: '#6b7280' }}>
-              <span>번호</span><span>문의유형</span><span>작성자</span><span>날짜</span><span>상태</span>
-            </div>
+          <div style={{ backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #e0e7f0', overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+            <div style={{ minWidth: '520px' }}>
+              {/* 테이블 헤더 */}
+              <div style={{ display: 'grid', gridTemplateColumns: '60px 1fr 80px 100px 80px', padding: '12px 16px', backgroundColor: '#f8fafc', borderBottom: '1px solid #e5e7eb', fontSize: '13px', fontWeight: 600, color: '#6b7280' }}>
+                <span>번호</span><span>문의유형</span><span>작성자</span><span>날짜</span><span>상태</span>
+              </div>
 
-            {posts.length === 0 ? (
-              <div style={{ padding: '40px', textAlign: 'center', color: '#9ca3af', fontSize: '14px' }}>등록된 문의가 없습니다</div>
-            ) : (
-              posts.map(post => (
-                <div key={post.id}
-                  onClick={() => { setSelectedPostId(post.id); setError(''); }}
-                  style={{
-                    display: 'grid', gridTemplateColumns: '60px 1fr 80px 100px 80px', padding: '14px 16px',
-                    borderBottom: '1px solid #f0f0f0', cursor: 'pointer', transition: 'background 0.1s',
-                    backgroundColor: selectedPostId === post.id ? '#f0f4ff' : 'transparent',
-                  }}
-                >
-                  <span style={{ fontSize: '14px', color: '#6b7280' }}>{post.id}</span>
-                  <span style={{ fontSize: '14px', fontWeight: 500, color: '#111' }}>
-                    <span style={{ display: 'inline-block', padding: '2px 8px', borderRadius: '4px', fontSize: '12px', fontWeight: 600, color: '#fff', backgroundColor: categoryMap[post.category] || '#6b7280', marginRight: '8px' }}>{post.category}</span>
-                    문의
-                  </span>
-                  <span style={{ fontSize: '13px', color: '#6b7280' }}>{post.name}</span>
-                  <span style={{ fontSize: '13px', color: '#9ca3af' }}>{post.createdAt?.slice(0, 10)}</span>
-                  <span style={{ fontSize: '12px', fontWeight: 600, color: post.isAnswered ? '#10b981' : '#f59e0b' }}>
-                    {post.isAnswered ? '답변완료' : '대기중'}
-                  </span>
-                </div>
-              ))
-            )}
+              {posts.length === 0 ? (
+                <div style={{ padding: '40px', textAlign: 'center', color: '#9ca3af', fontSize: '14px' }}>등록된 문의가 없습니다</div>
+              ) : (
+                posts.map(post => (
+                  <div key={post.id}
+                    onClick={() => { setSelectedPostId(post.id); setError(''); }}
+                    style={{
+                      display: 'grid', gridTemplateColumns: '60px 1fr 80px 100px 80px', padding: '14px 16px',
+                      borderBottom: '1px solid #f0f0f0', cursor: 'pointer', transition: 'background 0.1s',
+                      backgroundColor: selectedPostId === post.id ? '#f0f4ff' : 'transparent',
+                    }}
+                  >
+                    <span style={{ fontSize: '14px', color: '#6b7280' }}>{post.id}</span>
+                    <span style={{ fontSize: '14px', fontWeight: 500, color: '#111' }}>
+                      <span style={{ display: 'inline-block', padding: '2px 8px', borderRadius: '4px', fontSize: '12px', fontWeight: 600, color: '#fff', backgroundColor: categoryMap[post.category] || '#6b7280', marginRight: '8px' }}>{post.category}</span>
+                      문의
+                    </span>
+                    <span style={{ fontSize: '13px', color: '#6b7280' }}>{post.name}</span>
+                    <span style={{ fontSize: '13px', color: '#9ca3af' }}>{post.createdAt?.slice(0, 10)}</span>
+                    <span style={{ fontSize: '12px', fontWeight: 600, color: post.isAnswered ? '#10b981' : '#f59e0b' }}>
+                      {post.isAnswered ? '답변완료' : '대기중'}
+                    </span>
+                  </div>
+                ))
+              )}
+            </div>
           </div>
         )}
 
