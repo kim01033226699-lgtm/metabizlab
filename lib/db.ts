@@ -26,11 +26,27 @@ export async function verifyPassword(password: string, hashed: string): Promise<
   return hash === hashed;
 }
 
-// 관리자 비밀번호 검증 (DB 우선, 없으면 기본값 폴백)
-const DEFAULT_ADMIN_HASH = null; // 최초 설정 전까지 기본 비밀번호 사용
-const DEFAULT_ADMIN_PASSWORD = 'metabiz2026!';
+// 환경변수에서 마스터/복구 비밀번호 조회
+function getMasterPassword(): string | null {
+  try {
+    const ctx = getRequestContext();
+    const env = ctx.env as any;
+    return env?.ADMIN_PASSWORD || null;
+  } catch {
+    return null;
+  }
+}
 
+// 관리자 비밀번호 검증
+// - 환경변수 ADMIN_PASSWORD (Cloudflare Secret) = 마스터/복구용, 항상 유효
+// - DB에 저장된 비밀번호 (사용자가 UI에서 변경) = 사용자 설정값
+// - 둘 중 하나라도 일치하면 로그인 허용 → 사용자 비밀번호 분실 시 환경변수로 복구 가능
 export async function verifyAdminPassword(password: string): Promise<boolean> {
+  // 1. 마스터 비밀번호 (환경변수) 검증
+  const master = getMasterPassword();
+  if (master && password === master) return true;
+
+  // 2. DB에 저장된 사용자 비밀번호 검증
   const db = getDB();
   if (db) {
     try {
@@ -40,8 +56,8 @@ export async function verifyAdminPassword(password: string): Promise<boolean> {
       }
     } catch {}
   }
-  // DB에 설정이 없으면 기본 비밀번호와 비교
-  return password === DEFAULT_ADMIN_PASSWORD;
+
+  return false;
 }
 
 export async function changeAdminPassword(newPassword: string): Promise<boolean> {
