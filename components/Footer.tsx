@@ -69,8 +69,13 @@ export default function Footer() {
                 Contact
               </h4>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                <li style={{ marginBottom: '10px', color: 'rgba(255,255,255,0.5)', fontSize: '12px' }}>
-                  경기도 고양시 덕양구 향동로 218
+                <li style={{ marginBottom: '10px', color: 'rgba(255,255,255,0.5)', fontSize: '12px', lineHeight: '1.6' }}>
+                  본사: 서울특별시 마포구 마포대로 144<br />
+                  마포T타운 13층 (04212)
+                </li>
+                <li style={{ marginBottom: '10px', color: 'rgba(255,255,255,0.5)', fontSize: '12px', lineHeight: '1.6' }}>
+                  지사: 경기도 고양시 덕양구 향동로 218<br />
+                  현대테라타워DMC A-145호
                 </li>
                 <li style={{ marginBottom: '6px', color: 'rgba(255,255,255,0.5)', fontSize: '13px' }}>
                   T. 1600-3797

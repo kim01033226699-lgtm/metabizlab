@@ -317,7 +317,7 @@ export default function Home() {
               <LocationCard
                 title="메타비즈랩 (본사)"
                 subtitle="Main Office"
-                address="서울특별시 마포구 마포대로 144 마포T타운(04212)"
+                address="서울특별시 마포구 마포대로 144 마포T타운 13층 (04212)"
                 mapHtml={`<div id="daumRoughmapContainer1775275004997" class="root_daum_roughmap root_daum_roughmap_landing"></div><script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script><script charset="UTF-8">new daum.roughmap.Lander({"timestamp":"1775275004997","key":"29oemj76o9xw","mapWidth":"640","mapHeight":"360"}).render();</script>`}
               />
             </div>
@@ -326,7 +326,7 @@ export default function Home() {
               <LocationCard
                 title="메타비즈랩 (지사)"
                 subtitle="Branch Office"
-                address="경기도 고양시 덕양구 황동로 218, 1층 A0145호(Gate 5)"
+                address="경기도 고양시 덕양구 향동로 218 현대테라타워DMC A-145호"
                 mapHtml={`<div id="daumRoughmapContainer1775275072404" class="root_daum_roughmap root_daum_roughmap_landing"></div><script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script><script charset="UTF-8">new daum.roughmap.Lander({"timestamp":"1775275072404","key":"29oeo5dk324o","mapWidth":"640","mapHeight":"360"}).render();</script>`}
               />
             </div>
